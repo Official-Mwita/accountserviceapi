@@ -20,6 +20,12 @@ namespace accountservice.Controllers
 
         }
 
+        [HttpGet("/free")]
+        public string Free()
+        {
+            return "This is for you and me. People come from far";
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserModel user)
