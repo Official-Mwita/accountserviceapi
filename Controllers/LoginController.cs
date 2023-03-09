@@ -21,9 +21,9 @@ namespace accountservice.Controllers
         }
 
         [HttpGet("/free")]
-        public string Free()
+        public string Free(string name)
         {
-            return "This is for you and me. People come from far";
+            return "This is for you and me. People come from far" + name;
         }
 
 
