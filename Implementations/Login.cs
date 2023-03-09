@@ -1,6 +1,6 @@
 ﻿using accountservice.Controllers;
+using accountservice.ForcedModels;
 using accountservice.Interfaces;
-using BookingApi.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

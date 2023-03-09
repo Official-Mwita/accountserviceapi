@@ -1,5 +1,5 @@
 ﻿using accountservice.Controllers;
-using BookingApi.Models;
+using accountservice.ForcedModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace accountservice.Interfaces

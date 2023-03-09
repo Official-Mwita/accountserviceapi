@@ -1,9 +1,3 @@
-using accountservice.Implementations;
-using accountservice.Interfaces;
-using System.Net;
-using System.Reflection.PortableExecutable;
-using static System.Net.WebRequestMethods;
-
 
 namespace accountservice
 {

@@ -9,12 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BookingApinetcore\BookingApinetcore.csproj" />
-    <ProjectReference Include="..\BookingApi\BookingApi.csproj" />
-    <ProjectReference Include="..\Commons\Commons.csproj" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
   </ItemGroup>
 
 </Project>
