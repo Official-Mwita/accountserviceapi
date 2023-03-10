@@ -43,7 +43,7 @@ namespace accountservice
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
-            //if (env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 
 
@@ -62,26 +62,28 @@ namespace accountservice
                     //};
 
                     string[] origins = {
-                        "https://192.168.1.6:3000/",
-                        "https://192.168.1.6:3000",
-                        "https://192.168.1.200:3000",
-                        "https://192.168.1.200:3000/",
+                        "http://localhost:3000",
+                        "http://localhost:3000/",
+                        "http://192.168.1.6:3000/",
+                        "http://192.168.1.6:3000",
+                        "http://192.168.1.200:3000",
+                        "http://192.168.1.200:3000/",
                         "https://react-test-official-mwita.vercel.app",
                         "https://react-test-official-mwita.vercel.app/",
                         "https://react-test-eta-eight.vercel.app",
                         "https://react-test-eta-eight.vercel.app/"
                     };
 
+                    ops.WithOrigins("http://192.168.1.200:3000").AllowCredentials().AllowAnyMethod().AllowAnyHeader();
 
-
-                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET").WithHeaders("Cookie", "Content-Type", "X-Custom-Header","set-Cookie", "Authorization");
+                    //ops.WithOrigins("http://192.168.1.200:3000").AllowCredentials().WithMethods("POST", "GET").WithHeaders("Cookie", "Content-Type", "X-Custom-Header","set-Cookie", "Authorization");
                 });
             }
 
 
             // Configure the HTTP request pipeline.
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
