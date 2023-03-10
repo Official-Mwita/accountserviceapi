@@ -43,7 +43,7 @@ namespace accountservice
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
-            if (env.IsDevelopment())
+            //if (env.IsDevelopment())
             {
                 
 
