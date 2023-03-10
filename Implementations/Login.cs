@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
@@ -143,10 +144,12 @@ namespace accountservice.Implementations
                                         };
 
                                         //Now we create relevant logged in user
+                                        values.Clear(); //Reset hash table values just incase
 
-                                        LoginUser(loggedINUser);
+                                        values = genetrateToken(loggedINUser);
 
-                                        return new RedirectResult("http://192.168.1.200:7030/user/access_token");
+
+                                        return new OkObjectResult(values);
                                     }
 
                                    
@@ -155,9 +158,12 @@ namespace accountservice.Implementations
 
                                     if (user != null)
                                     {
-                                        LoginUser(user);
+                                        values.Clear(); //Reset hash table values just incase
 
-                                        return new OkObjectResult("http://192.168.1.200:7030/user/access_token");
+                                        values = genetrateToken(user);
+
+
+                                        return new OkObjectResult(values);
 
                                     }
 
@@ -214,9 +220,13 @@ namespace accountservice.Implementations
                     //check user password
                     if (MUser.passwordHash(user.Password) == loggedINUser.Password)
                     {
-                        LoginUser(loggedINUser);
+                       values.Clear(); //Reset hash table values just incase
 
-                        return new RedirectResult($"{APP_ADDRESS}/user/get_userinfo");
+                       values = genetrateToken(loggedINUser);
+
+
+                        return new OkObjectResult(values);
+                       
                     }
 
                 }
@@ -243,14 +253,23 @@ namespace accountservice.Implementations
         }
 
 
-        //This method is used to normally login a user,
-        //then generate a session, that can be used by that user
-        //To perform authenticated services
-        private async void LoginUser(MUser loggedINUser)
+
+        //A private function used to generate user JWT token per logged in user used across
+        //All our API
+        private Hashtable genetrateToken(MUser loggedINUser)
         {
+            Hashtable userinfo = new Hashtable();
+            //Now we create relevant logged in user
+            //Creating a Jwt object
+            Jwt jwt = _config.GetSection("Jwt").Get<Jwt>();
+
             //Add relevant claims
             List<Claim> claims = new List<Claim>()
                                     {
+                                        new Claim(JwtRegisteredClaimNames.Sub, jwt.Subject),
+                                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
+
                                         new Claim(ClaimTypes.PrimarySid, ""+ loggedINUser.UserID), //User id as identified by database
                                         new Claim(ClaimTypes.GivenName, loggedINUser.UserName??""), //Username. 
                                         new Claim(ClaimTypes.Country,loggedINUser.OriginCountry), //Country 
@@ -270,34 +289,6 @@ namespace accountservice.Implementations
                 claims.Add(new Claim(MUser.ADMIN_TYPE, loggedINUser.UserName.ToLower()));
             }
 
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "auth_cookie");
-
-            ClaimsPrincipal account = new ClaimsPrincipal(claimsIdentity);
-
-
-            await _httpContext.SignInAsync("auth_cookie", account);
-        }
-
-
-        //A private function used to generate user JWT token per logged in user used across
-        //All our API
-        private string genetrateToken()
-        {
-            //Now we create relevant logged in user
-            //Creating a Jwt object
-            Jwt jwt = _config.GetSection("Jwt").Get<Jwt>();
-
-            //Add relevant claims
-            List<Claim> claims = new List<Claim>()
-                                    {
-                                        new Claim(JwtRegisteredClaimNames.Sub, jwt.Subject),
-                                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
-
-                                    };
-
-            claims.AddRange(_httpContext.User.Claims);
-
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
 
             SigningCredentials signin = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -311,7 +302,11 @@ namespace accountservice.Implementations
                 signingCredentials: signin
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            userinfo.Add("status", true);
+            userinfo.Add("token", new JwtSecurityTokenHandler().WriteToken(token));
+            userinfo.Add("user", loggedINUser);
+
+            return userinfo;
         }
 
 
@@ -417,9 +412,5 @@ namespace accountservice.Implementations
 
         }
 
-        public string GenerateUserToken()
-        {
-            return  genetrateToken();
-        }
     }
 }

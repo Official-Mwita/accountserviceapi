@@ -15,7 +15,6 @@ namespace accountservice.Interfaces
 
         //Login in user into our system by using Microsoft OpenID connect protocol
         public Task<IActionResult> LoginwithMicrosoft(string? code);
-        public string GenerateUserToken();
 
         public Task<MUser> getUserInfo(string? email, string? username);
     }
