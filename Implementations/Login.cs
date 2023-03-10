@@ -15,10 +15,12 @@ using System.Text;
 
 namespace accountservice.Implementations
 {
-
+    
 
     public class Login : ILogin
     {
+        public const string APP_ADDRESS = "https://bookingapptrial.azurewebsites.net";
+
         private readonly IConfiguration _config;
         private readonly HttpContext _httpContext;
 
@@ -213,7 +215,7 @@ namespace accountservice.Implementations
                     {
                         LoginUser(loggedINUser);
 
-                        return new RedirectResult("http://192.168.1.200:7030/user/get_userinfo");
+                        return new RedirectResult($"{APP_ADDRESS}/user/get_userinfo");
                     }
 
                 }
