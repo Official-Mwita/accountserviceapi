@@ -19,7 +19,8 @@ namespace accountservice.Implementations
 
     public class Login : ILogin
     {
-        public const string APP_ADDRESS = "https://bookingapptrial.azurewebsites.net";
+        //public const string APP_ADDRESS = "https://bookingapptrial.azurewebsites.net";
+        public const string APP_ADDRESS = "http://192.168.1.200:3000/";
 
         private readonly IConfiguration _config;
         private readonly HttpContext _httpContext;

@@ -62,10 +62,14 @@ namespace accountservice
                     //};
 
                     string[] origins = {
-                        "http://192.168.1.6:3000/",
-                        "http://192.168.1.6:3000",
-                        "http://192.168.1.200:3000",
-                        "http://192.168.1.200:3000/"
+                        "https://192.168.1.6:3000/",
+                        "https://192.168.1.6:3000",
+                        "https://192.168.1.200:3000",
+                        "https://192.168.1.200:3000/",
+                        "https://react-test-official-mwita.vercel.app",
+                        "https://react-test-official-mwita.vercel.app/",
+                        "https://react-test-eta-eight.vercel.app",
+                        "https://react-test-eta-eight.vercel.app/"
                     };
 
 

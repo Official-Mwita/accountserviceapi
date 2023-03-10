@@ -23,7 +23,7 @@ namespace accountservice.Controllers
         [HttpGet("/free")]
         public string Free(string name)
         {
-            return "This is for you and me. People come from far" + name;
+            return "I gave this for your test Mr. " + name;
         }
 
 
