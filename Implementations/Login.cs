@@ -222,6 +222,9 @@ namespace accountservice.Implementations
                     {
                        values.Clear(); //Reset hash table values just incase
 
+                        //clear password after use
+                        loggedINUser.Password = string.Empty;
+
                        values = genetrateToken(loggedINUser);
 
 
@@ -385,12 +388,13 @@ namespace accountservice.Implementations
                             Position = reader.GetString(9),
                             DisabilityStatus = reader.GetString(10),
                             HashPassword = reader.GetString(11)
+                                                       
 
                         };
 
                         if (!is4login)
                         {
-                            user.HashPassword = "-";
+                            user.HashPassword = string.Empty;
                         }
 
 

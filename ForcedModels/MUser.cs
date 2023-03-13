@@ -36,9 +36,10 @@ namespace accountservice.ForcedModels
             {
 
                 //Hash password here
-                if (hashedPassword == null && value?.Trim() != string.Empty)
+                if (hashedPassword != null && value?.Trim() != string.Empty)
                     hashedPassword = passwordHash(value ?? "");
-
+                else
+                    hashedPassword = value;
             }
         }
 
