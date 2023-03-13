@@ -62,11 +62,12 @@ namespace accountservice
                     //};
 
                     string[] origins = {
-                        "https://192.168.1.6:3000/",
-                        "https://192.168.1.6:3000",
-                        "https://192.168.1.200:3000",
-                        "https://192.168.1.200:3000/",
-                        "https://react-test-official-mwita.vercel.app",
+                        "https://i-business-ouigcdw7x-moryno.vercel.app",
+                        "https://i-business-ouigcdw7x-moryno.vercel.app/",
+                        "https://ibusiness-a6vkaxgd2-moryno.vercel.app/",
+                        "https://ibusiness-a6vkaxgd2-moryno.vercel.app/",
+                        "http://localhost:3000",
+                        "http://192.168.1.200:3000/",
                         "https://react-test-official-mwita.vercel.app/",
                         "https://react-test-eta-eight.vercel.app",
                         "https://react-test-eta-eight.vercel.app/"
