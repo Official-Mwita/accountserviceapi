@@ -169,7 +169,7 @@ namespace accountservice.Implementations
                                             PhysicalAddress = reader.GetString(4),
                                             OriginCountry = reader.GetString(6),
                                             EmployerName = " " + reader.GetString(7),
-                                            Experience = "" + reader.GetInt32(8),
+                                            Experience = reader.GetInt32(8),
                                             Position = reader.GetString(9),
                                             DisabilityStatus = reader.GetString(10),
                                             Password = " "
@@ -359,7 +359,7 @@ namespace accountservice.Implementations
                 PhysicalAddress = userinfo.officeLocation ?? "123 Nairobi",
                 Telephone = userinfo.mobilePhone ?? "07922",
                 OriginCountry = "Kenya",
-                Experience = "" + 0,
+                Experience = 0,
                 Position = "Not specified",
                 DisabilityStatus = "Not disabled"
 
@@ -417,7 +417,7 @@ namespace accountservice.Implementations
                             PhysicalAddress = reader.GetString(4),
                             OriginCountry = reader.GetString(6),
                             EmployerName = " " + reader.GetString(7),
-                            Experience = "" + reader.GetInt32(8),
+                            Experience = reader.GetInt32(8),
                             Position = reader.GetString(9),
                             DisabilityStatus = reader.GetString(10),
                             HashPassword = reader.GetString(11)

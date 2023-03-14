@@ -54,7 +54,7 @@ namespace accountservice.ForcedModels
         public string Telephone { get; set; } = string.Empty;
         public string OriginCountry { get; set; } = string.Empty;
         public string EmployerName { get; set; } = string.Empty;
-        public string Experience { get; set; }
+        public int Experience { get; set; }
         public string Position { get; set; } = string.Empty;
         public string DisabilityStatus { get; set; } = string.Empty;
 
