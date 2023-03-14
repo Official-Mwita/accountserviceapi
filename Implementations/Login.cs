@@ -1,8 +1,10 @@
 ﻿using accountservice.Controllers;
 using accountservice.ForcedModels;
 using accountservice.Interfaces;
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -40,10 +42,41 @@ namespace accountservice.Implementations
             {
                 //Generate other values such as status and status code
 
-                return new RedirectResult(_config.GetSection("Microsofturl").Get<string>());
+                return new RedirectResult(_config.GetSection("Microsofturllocal").Get<string>());
             }
             else
             {
+                ////Making using of Microsoft graph SDK to simply user infomation access
+                //var scopes = new[] { "openid User.Read" };
+                //var tenantId = "common";
+
+                //// Values from app registration
+                //var clientId = _config["AzureAd:ClientId"] ?? "no client id";
+                //var clientSecret = _config["AzureAd:ClientSecret"] ?? "nosecret key";
+                //var redirecur = "http://localhost:3000/login";
+
+                //// For authorization code flow, the user signs into the Microsoft
+                //// identity platform, and the browser is redirected back to your app
+                //// with an authorization code in the query parameters
+                //var authorizationCode = code;
+
+
+
+                //// using Azure.Identity;
+                //var options = new TokenCredentialOptions
+                //{
+                //    AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
+                                       
+                //};
+
+
+                //var authCodeCredential = new AuthorizationCodeCredential(clientId, clientSecret,redirecur, authorizationCode, options);
+                //authCodeCredential = new AuthorizationCodeCredential()
+               
+                //var graphClient = new GraphServiceClient(authCodeCredential, scopes);
+                //var guser = await graphClient.Me.GetAsync();
+                //return new OkObjectResult(guser);
+
                 //process results
                 using var client = new HttpClient();
                 client.BaseAddress = new Uri("https://login.microsoftonline.com");
@@ -332,7 +365,7 @@ namespace accountservice.Implementations
 
             };
             using var client = new HttpClient();
-            client.BaseAddress = new Uri("http://192.168.1.200:7030");
+            client.BaseAddress = new Uri("https://bookingapptrial.azurewebsites.net/");
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
