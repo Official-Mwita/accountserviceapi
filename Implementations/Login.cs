@@ -42,7 +42,7 @@ namespace accountservice.Implementations
             {
                 //Generate other values such as status and status code
 
-                return new RedirectResult(_config.GetSection("Microsofturllocal").Get<string>());
+                return new RedirectResult(_config.GetSection("Microsofturlreact").Get<string>());
             }
             else
             {
