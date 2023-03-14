@@ -49,30 +49,15 @@ namespace accountservice
 
                 app.UseCors(ops =>
                 {
-                    //string[] origins = { 
-                    //    "http://192.168.1.200:3000", 
-                    //    "http://localhost:3000",
-                    //    "http://192.168.1.200:3000/", 
-                    //    "http://localhost:3000/",
-                    //    "http://192.168.1.6:3000",
-                    //    "http://192.168.1.6:3000/login",
-                    //    "http://192.168.1.5:3000/*",
-                    //    "https://192.168.1.5:3000/*",
-                    //    "http://192.168.1.200:3000/*",
-                    //};
 
                     string[] origins = {
-                        "https://i-business-ouigcdw7x-moryno.vercel.app",
-                        "https://i-business-ouigcdw7x-moryno.vercel.app/",
-                        "https://ibusiness-a6vkaxgd2-moryno.vercel.app/",
-                        "https://i-business-2niabkx7d-moryno.vercel.app",
-                        "https://i-business-2niabkx7d-moryno.vercel.app/",
-                        "https://ibusiness-a6vkaxgd2-moryno.vercel.app/",
+                        "https://ibusiness-git-main-moryno.vercel.app", //Dashboard frontend link
+                        "https://i-business-ui-git-main-moryno.vercel.app", //login frontend link
+                        "https://i-business-ui-git-main-moryno.vercel.app/",//login frontend link
+                        "https://ibusiness-git-main-moryno.vercel.app/", //Dashboard frontend link
                         "http://localhost:3000",
+                        "http://localhost:3000/",
                         "http://192.168.1.200:3000/",
-                        "https://react-test-official-mwita.vercel.app/",
-                        "https://react-test-eta-eight.vercel.app",
-                        "https://react-test-eta-eight.vercel.app/"
                     };
 
 
