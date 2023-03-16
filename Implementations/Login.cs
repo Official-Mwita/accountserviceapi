@@ -5,6 +5,7 @@ using Azure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Graph;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -42,40 +43,10 @@ namespace accountservice.Implementations
             {
                 //Generate other values such as status and status code
 
-                return new RedirectResult(_config.GetSection("Microsofturlreact").Get<string>());
+                return new RedirectResult(_config.GetSection("Microsofturllocal").Get<string>());
             }
             else
             {
-                ////Making using of Microsoft graph SDK to simply user infomation access
-                //var scopes = new[] { "openid User.Read" };
-                //var tenantId = "common";
-
-                //// Values from app registration
-                //var clientId = _config["AzureAd:ClientId"] ?? "no client id";
-                //var clientSecret = _config["AzureAd:ClientSecret"] ?? "nosecret key";
-                //var redirecur = "http://localhost:3000/login";
-
-                //// For authorization code flow, the user signs into the Microsoft
-                //// identity platform, and the browser is redirected back to your app
-                //// with an authorization code in the query parameters
-                //var authorizationCode = code;
-
-
-
-                //// using Azure.Identity;
-                //var options = new TokenCredentialOptions
-                //{
-                //    AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
-                                       
-                //};
-
-
-                //var authCodeCredential = new AuthorizationCodeCredential(clientId, clientSecret,redirecur, authorizationCode, options);
-                //authCodeCredential = new AuthorizationCodeCredential()
-               
-                //var graphClient = new GraphServiceClient(authCodeCredential, scopes);
-                //var guser = await graphClient.Me.GetAsync();
-                //return new OkObjectResult(guser);
 
                 //process results
                 using var client = new HttpClient();
