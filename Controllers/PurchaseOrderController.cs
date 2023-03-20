@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookingApi.Models;
 using System.Collections;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-using Microsoft.Extensions.Configuration;
-using System;
+using Microsoft.Azure.Cosmos;
 
 
 
@@ -13,10 +11,26 @@ using System;
 
 namespace BookingApi.Controllers
 {
+
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PurchaseOrderController : ControllerBase
     {
+        private static readonly string EndpointUri = "https://purchaseorderitems.documents.azure.com:443/";
+
+        // The primary key for the Azure Cosmos account.
+        private static readonly string PrimaryKey = "UEyhDWw0UF9CweujkD8xlhtnhWpucIJHiElDrLa47gL77EwBfCMueYfeDcwiZPwvB3VyX6uignNBACDbPg1ohQ==";
+
+
+        // The container we will create.
+        private Container container;
+
+        // The name of the database and container we will create
+        private string databaseId = "purchaseorderitems";
+        private string containerId = "orderitems";
+
+        private CosmosClient cosmosClient;
 
         private readonly IConfiguration _config;
         private SqlConnection _connection;
@@ -29,7 +43,7 @@ namespace BookingApi.Controllers
         }
 
         [HttpPost]
-        [Route("/createpurchaseorder")]
+        [Route("createpurchaseorder")]
         public async Task<IActionResult> insertPurchaseOrder(CompletePurchaseOrder request)
             {
 
@@ -110,12 +124,6 @@ namespace BookingApi.Controllers
                }
 
                return new OkObjectResult(response);
-
-
-
-
-
-
             }
             else
             {
@@ -125,6 +133,76 @@ namespace BookingApi.Controllers
             }
 
             }
+
+            [HttpPost]
+            [Route("insertorderitems")]
+            public async Task<IActionResult> InsertOrderItems ([FromBody] MPurchaseOrderItem item) {
+                if (ModelState.IsValid){
+                    MPurchaseOrderItem orderitem = new MPurchaseOrderItem {
+                        item = item.item,
+                        quantity = item.quantity,
+                        unitCost = item.unitCost,
+                        extendedCost = item.extendedCost,
+                        taxAmount = item.taxAmount,
+                        discountAmount = item.discountAmount,
+                        lineTotal = item.lineTotal,
+                        partitionKey = item.partitionKey,
+                        id = item.id
+
+                    };
+                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                    Container container = cosmosClient.GetContainer(databaseId, containerId);
+                    try {
+                        ItemResponse<MPurchaseOrderItem> response = await container.CreateItemAsync<MPurchaseOrderItem>(orderitem, new PartitionKey(orderitem.partitionKey));
+                        return new OkResult();
+                    } catch(Exception e) {
+                        Console.WriteLine(e.Message);
+                        return new BadRequestResult();
+
+
+                    }
+                } 
+
+                return new BadRequestResult();
+
+                
+            }
+
+            [HttpPost]
+            [Route("/getorderitems")]
+
+            public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
+                {
+                    
+                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                    Container container = cosmosClient.GetContainer(databaseId, containerId);
+                    string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{user.userid}'";
+                    QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
+                    FeedIterator<MPurchaseOrderItem> queryResultSetIterator = container.GetItemQueryIterator<MPurchaseOrderItem>(queryDefinition);
+
+                    List<MPurchaseOrderItem> orderitems = new List<MPurchaseOrderItem>();
+
+                    while (queryResultSetIterator.HasMoreResults)
+                        {
+                            try {
+                            FeedResponse<MPurchaseOrderItem> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                            foreach (MPurchaseOrderItem orderitem in currentResultSet)
+                                {
+                                    orderitems.Add(orderitem);
+                                    Console.WriteLine("\tRead {0}\n", orderitem.item);
+                                }
+                            } catch(Exception X){
+                                Console.WriteLine(X.Message);
+                            }
+                        }
+                    
+
+
+                    return new OkObjectResult(orderitems);
+                
+                }
+
+
         }
 
 
