@@ -157,6 +157,36 @@ namespace BookingApi.Controllers
             }
 
             [HttpPost]
+            [Route("updateorderitem")]
+            public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
+                if (ModelState.IsValid){
+                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                    Container container = cosmosClient.GetContainer(databaseId, containerId);
+                    ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
+                    Console.WriteLine(OrderItemResponse.Resource.id);
+                    var itemBody = OrderItemResponse.Resource;            
+                    // update registration status from false to true
+                    itemBody.item = "Ugali";
+                    // update grade of child
+                    itemBody.quantity = 6;
+                    Console.WriteLine(itemBody.id);
+                    try {
+                        OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(itemBody, itemBody.id, new PartitionKey(itemBody.partitionKey));
+                        return new OkResult();
+                    } catch(Exception e) {
+                        Console.WriteLine(e.Message);
+                        return new BadRequestResult();
+
+
+                    }
+                } 
+
+                return new BadRequestResult();
+
+                
+            }
+
+            [HttpPost]
             [Route("getorderitems")]
 
             public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
