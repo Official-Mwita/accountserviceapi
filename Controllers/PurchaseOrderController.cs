@@ -138,22 +138,10 @@ namespace BookingApi.Controllers
             [Route("insertorderitems")]
             public async Task<IActionResult> InsertOrderItems ([FromBody] MPurchaseOrderItem item) {
                 if (ModelState.IsValid){
-                    MPurchaseOrderItem orderitem = new MPurchaseOrderItem {
-                        item = item.item,
-                        quantity = item.quantity,
-                        unitCost = item.unitCost,
-                        extendedCost = item.extendedCost,
-                        taxAmount = item.taxAmount,
-                        discountAmount = item.discountAmount,
-                        lineTotal = item.lineTotal,
-                        partitionKey = item.partitionKey,
-                        id = item.id
-
-                    };
                     CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
                     Container container = cosmosClient.GetContainer(databaseId, containerId);
                     try {
-                        ItemResponse<MPurchaseOrderItem> response = await container.CreateItemAsync<MPurchaseOrderItem>(orderitem, new PartitionKey(orderitem.partitionKey));
+                        ItemResponse<MPurchaseOrderItem> response = await container.CreateItemAsync<MPurchaseOrderItem>(item, new PartitionKey(item.partitionKey));
                         return new OkResult();
                     } catch(Exception e) {
                         Console.WriteLine(e.Message);
