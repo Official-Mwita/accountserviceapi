@@ -157,7 +157,7 @@ namespace BookingApi.Controllers
             }
 
             [HttpPost]
-            [Route("/getorderitems")]
+            [Route("getorderitems")]
 
             public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
                 {
