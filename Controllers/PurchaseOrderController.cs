@@ -156,7 +156,7 @@ namespace BookingApi.Controllers
                 
             }
 
-            [HttpPost]
+            [HttpPut]
             [Route("updateorderitem")]
             public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
                 if (ModelState.IsValid){
