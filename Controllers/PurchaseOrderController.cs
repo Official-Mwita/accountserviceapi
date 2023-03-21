@@ -22,15 +22,10 @@ namespace BookingApi.Controllers
         // The primary key for the Azure Cosmos account.
         private static readonly string PrimaryKey = "UEyhDWw0UF9CweujkD8xlhtnhWpucIJHiElDrLa47gL77EwBfCMueYfeDcwiZPwvB3VyX6uignNBACDbPg1ohQ==";
 
-
-        // The container we will create.
-        private Container container;
-
         // The name of the database and container we will create
         private string databaseId = "purchaseorderitems";
         private string containerId = "orderitems";
 
-        private CosmosClient cosmosClient;
 
         private readonly IConfiguration _config;
         private SqlConnection _connection;
@@ -177,7 +172,6 @@ namespace BookingApi.Controllers
                         Console.WriteLine(e.Message);
                         return new BadRequestResult();
 
-
                     }
                 } 
 
@@ -211,11 +205,10 @@ namespace BookingApi.Controllers
                                 }
                             } catch(Exception X){
                                 Console.WriteLine(X.Message);
+                                return new BadRequestResult();
                             }
                         }
                     
-
-
                     return new OkObjectResult(orderitems);
                 
                 }
