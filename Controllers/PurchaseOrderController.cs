@@ -159,14 +159,9 @@ namespace BookingApi.Controllers
                     Container container = cosmosClient.GetContainer(databaseId, containerId);
                     ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
                     Console.WriteLine(OrderItemResponse.Resource.id);
-                    var itemBody = OrderItemResponse.Resource;            
-                    // update registration status from false to true
-                    itemBody.item = "Ugali";
-                    // update grade of child
-                    itemBody.quantity = 6;
-                    Console.WriteLine(itemBody.id);
+
                     try {
-                        OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(itemBody, itemBody.id, new PartitionKey(itemBody.partitionKey));
+                        OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(item, item.id, new PartitionKey(item.partitionKey));
                         return new OkResult();
                     } catch(Exception e) {
                         Console.WriteLine(e.Message);
