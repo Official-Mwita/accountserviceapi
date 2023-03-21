@@ -63,7 +63,7 @@ namespace accountservice
 
 
 
-                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET", "PUT").WithHeaders("Cookie", "Content-Type", "X-Custom-Header","set-Cookie", "Authorization");
+                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET", "PUT").WithHeaders("Cookie", "Content-Type","Access-Control-Allow-Origin", "X-Custom-Header","set-Cookie", "Authorization");
                 });
             }
 
