@@ -67,7 +67,7 @@ namespace accountservice
 
 
 
-                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET", "PUT").AllowAnyHeader();
+                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET", "PUT", "DELETE").AllowAnyHeader();
                 });
             }
 
