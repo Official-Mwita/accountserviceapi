@@ -35,16 +35,7 @@ namespace accountservice
                     ops.LoginPath = "/login";
                 });
 
-            services.AddCors(options =>
-                {
-                    options.AddPolicy("MyCorsPolicy", builder =>
-                    {
-                        builder.WithOrigins("https://ibusiness-git-main-moryno.vercel.app")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-                });
-
+            
 
             //Adding services and their implementation
             //services.AddTransient<ILogin, Login>();
@@ -89,7 +80,6 @@ namespace accountservice
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
