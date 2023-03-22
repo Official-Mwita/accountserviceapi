@@ -1,14 +1,10 @@
-﻿using accountservice.Controllers;
+﻿using accountservice.Commons;
+using accountservice.Controllers;
 using accountservice.ForcedModels;
 using accountservice.Interfaces;
-using Azure.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Graph;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,10 +12,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
-
 namespace accountservice.Implementations
 {
-    
+
 
     public class Login : ILogin
     {
@@ -43,7 +38,7 @@ namespace accountservice.Implementations
             {
                 //Generate other values such as status and status code
 
-                return new RedirectResult(_config.GetSection("Microsofturlreact").Get<string>());
+                return new RedirectResult(_config.GetSection("Microsofturllocal").Get<string>());
             }
             else
             {
@@ -57,7 +52,7 @@ namespace accountservice.Implementations
                     { "code", code },
                     { "scope", "openid User.Read" },
                     { "client_id", _config["AzureAd:ClientId"]?? "no client id" },
-                    { "redirect_uri", "https://i-business-ui-git-main-moryno.vercel.app/sign-in" },
+                    { "redirect_uri", "http://localhost:5000/login/Loginwithmicrosoft" },
                     { "grant_type", "authorization_code" },
                     { "client_secret", _config["AzureAd:ClientSecret"]??"nosecret key" }
                 };
@@ -95,6 +90,7 @@ namespace accountservice.Implementations
 
                         dynamic? graphuserinfo = JsonConvert.DeserializeObject(resBody);
 
+
                         string? useremail = graphuserinfo?.userPrincipalName;
 
 
@@ -106,47 +102,56 @@ namespace accountservice.Implementations
                         //Get Userrecord if exists
                         try
                         {
+                            DatabaseHandler dbhander = DatabaseHandler.GetDAtabaseHandlerInstance();
 
-                            //Connect to database.
-                            //Return 1 if email exists, 0 if user does not and -1 if an error occured
-                            using (SqlConnection _connection = new SqlConnection(_config.GetConnectionString("connString")))
+                            dbhander.Parameters.Add(new Parameter
                             {
-                                //Connect to database then read booking records
-                                _connection.OpenAsync().Wait();
+                                Name = "userName",
+                                Value = " ",
+                                Type = SqlDbType.NVarChar
 
-                                using (SqlCommand command = new SqlCommand("spSelectUser", _connection))
+                            });
+
+                            dbhander.Parameters.Add(new Parameter
+                            {
+                                Name = "email",
+                                Value = useremail ?? "empty",
+                                Type = SqlDbType.NVarChar
+
+                            });
+
+                            using (SqlDataReader reader = await dbhander.ExecuteProcedure(_config.GetConnectionString("connString"), "spSelectUser"))
+                            {
+
+                                if (reader.HasRows)
                                 {
-                                    command.CommandType = CommandType.StoredProcedure;
-                                    command.Parameters.AddWithValue("userName", SqlDbType.NVarChar).Value = " "; //We use email instead
+                                    reader.Read();
 
-                                    //Get email from the user claims
-                                    command.Parameters.AddWithValue("email", SqlDbType.NVarChar).Value = useremail ?? "empty";
 
-                                    SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                                    if (reader.HasRows)
+                                    //Create a user principal. I.e login user
+                                    //Check if password match then return ok
+                                    //Create a user model
+                                    MUser loggedINUser = new MUser()
                                     {
-                                        reader.Read();
-                                        //Create a user principal. I.e login user
-                                        //Check if password match then return ok
-                                        //Create a user model
-                                        MUser loggedINUser = new MUser()
-                                        {
-                                            UserID = reader.GetInt64(0),
-                                            Email = reader.GetString(2),
-                                            UserName = reader.GetString(1),
-                                            FullName = reader.GetString(3),
-                                            Telephone = reader.GetString(5),
-                                            PhysicalAddress = reader.GetString(4),
-                                            OriginCountry = reader.GetString(6),
-                                            EmployerName = " " + reader.GetString(7),
-                                            Experience = reader.GetInt32(8),
-                                            Position = reader.GetString(9),
-                                            DisabilityStatus = reader.GetString(10),
-                                            Password = " "
+                                        UserID = reader.GetInt64(0),
+                                        Email = reader.GetString(2),
+                                        UserName = reader.GetString(1),
+                                        FullName = reader.GetString(3),
+                                        Telephone = reader.GetString(5),
+                                        PhysicalAddress = reader.GetString(4),
+                                        OriginCountry = reader.GetString(6),
+                                        EmployerName = " " + reader.GetString(7),
+                                        Experience = reader.GetInt32(8),
+                                        Position = reader.GetString(9),
+                                        DisabilityStatus = reader.GetString(10),
+                                        Password = " "
 
-                                        };
+                                    };
 
+                                    //Ensure that user is fully registered otherwise proceed
+                                    bool fullyRegistered = await isFullyRegistered(loggedINUser);
+                                    if (fullyRegistered)
+                                    {
                                         //Now we create relevant logged in user
                                         values.Clear(); //Reset hash table values just incase
 
@@ -155,30 +160,37 @@ namespace accountservice.Implementations
 
                                         return new OkObjectResult(values);
                                     }
-
-                                   
-                                    //Register user
-                                    var user = await RegisterUser(graphuserinfo);
-
-                                    if (user != null)
+                                    else
                                     {
-                                        values.Clear(); //Reset hash table values just incase
-
-                                        values = genetrateToken(user);
-
-
-                                        return new OkObjectResult(values);
-
+                                        //Redirect to a detailed registration
                                     }
 
 
-
-                                    return new UnauthorizedObjectResult(values);
-
-
                                 }
+
+                                //Close db resource
+                                dbhander.CloseResources();
+
                             }
 
+                                   
+                            //Initialize first user registration
+                            var user = await RegisterUser(graphuserinfo);
+
+                            if (user != null)
+                            {
+                                values.Clear(); //Reset hash table values just incase
+
+                                values = genetrateToken(user);
+
+
+                                return new OkObjectResult(values);
+
+                            }
+
+
+
+                            return new UnauthorizedObjectResult(values);
 
                         }
                         catch (Exception e)
@@ -208,6 +220,59 @@ namespace accountservice.Implementations
                 }
             }
 
+        }
+
+        private async Task<bool> isFullyRegistered(MUser user)
+        {
+            bool fullyRegistered = false;
+
+            //Get OAuth registration details
+            try
+            {
+                using (SqlConnection _connection = new SqlConnection(_config.GetConnectionString("connString")))
+                {
+                   await  _connection.OpenAsync();
+
+                    using (SqlCommand command = new SqlCommand("spSelectOAuthUser", _connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("accountID", SqlDbType.BigInt).Value = user.UserID; //Get Aouth user information by ID
+
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (reader.HasRows)
+                            {
+                                var registrationConfirmed = reader.GetInt16(0);
+                                var phoneVerified = reader.GetInt16(1);
+                                
+
+                                if(registrationConfirmed == 1 && phoneVerified == 1)
+                                {
+                                    fullyRegistered = true;
+                                }
+                                else
+                                {
+                                    //Register per detail
+                                    //We will continue from here
+
+                                }
+                            }
+                           
+                        }
+
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+                //Handle any possible exception
+                fullyRegistered = false;
+            }
+
+
+                return fullyRegistered;
         }
 
         public async Task<IActionResult> StandardLogin([FromBody]UserModel user)
@@ -260,6 +325,36 @@ namespace accountservice.Implementations
         }
 
 
+        /// <summary>
+        /// Generates a JWT when provided a list of claims
+        /// Returns a string token
+        /// </summary>
+        /// <param name="claims">A list of claims</param>
+        /// <returns>string token</returns>
+        private string generateToken(List<Claim> claims, double validity)
+        {
+            string token = string.Empty;
+
+            Jwt jwt = _config.GetSection("Jwt").Get<Jwt>();
+
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
+
+            SigningCredentials signin = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            JwtSecurityToken securityToken = new JwtSecurityToken
+            (
+                jwt.Issuer,
+                jwt.Audience,
+                claims,
+                expires: DateTime.Now.AddHours(validity), //Token expires in one hour of in activities
+                signingCredentials: signin
+            );
+
+            token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+            return token;
+        }
 
         //A private function used to generate user JWT token per logged in user used across
         //All our API
@@ -268,12 +363,12 @@ namespace accountservice.Implementations
             Hashtable userinfo = new Hashtable();
             //Now we create relevant logged in user
             //Creating a Jwt object
-            Jwt jwt = _config.GetSection("Jwt").Get<Jwt>();
+            
 
             //Add relevant claims
             List<Claim> claims = new List<Claim>()
                                     {
-                                        new Claim(JwtRegisteredClaimNames.Sub, jwt.Subject),
+                                        new Claim(JwtRegisteredClaimNames.Sub, _config["Jwt:Subject"]),
                                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
 
@@ -296,27 +391,105 @@ namespace accountservice.Implementations
                 claims.Add(new Claim(MUser.ADMIN_TYPE, loggedINUser.UserName.ToLower()));
             }
 
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
-
-            SigningCredentials signin = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            JwtSecurityToken token = new JwtSecurityToken
-            (
-                jwt.Issuer,
-                jwt.Audience,
-                claims,
-                expires: DateTime.Now.AddHours(24), //Token expires in one hour of in activities
-                signingCredentials: signin
-            );
-
             userinfo.Add("status", true);
-            userinfo.Add("token", new JwtSecurityTokenHandler().WriteToken(token));
+            userinfo.Add("token", generateToken(claims, 10)); //10 hrs for a logged in token
             userinfo.Add("user", loggedINUser);
 
             return userinfo;
         }
 
+        private async Task<IActionResult> HandlefullRegistration(MUser userinfo)
+        {
+            //Generate a short timed token to help handle data collection for this user
+            //Specific stored in the token as claims
+            // the information include user id (email)
+            List<Claim> claims = new List<Claim>()
+                                    {
+                                        new Claim(JwtRegisteredClaimNames.Sub, _config["Jwt:Subject"]),
+                                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
 
+                                        new Claim("principalName", userinfo.Email), //User principal id
+                                        new Claim("userid", "" + userinfo.UserID) 
+                                        
+                                        //And many more
+
+                                    };
+            IDictionary<string, object> authorizationValues = new Dictionary<string, object>
+            {
+                { "auth_token", generateToken(claims, 0.6) }, //Ten minutes for code verification
+                { "userinfo", userinfo }
+            };
+
+            return new OkObjectResult(authorizationValues);
+ 
+        }
+
+        //Phone verification method
+
+        public async Task<IActionResult> VerifyPhone(string phoneNumber, int code, List<Claim> claims, string token="notoken")
+        {
+            //If code is not set use provided phone number if it exists to generate and send the code
+            if(code == 0)//Generate code
+            {
+                Random rnd = new Random();
+                code = rnd.Next(100000, 999999);
+                claims.Add(new Claim("phoneCode", "" + code));//Should preferer saving the code in a database
+                claims.Add(new Claim("phoneNumber", phoneNumber));
+
+                //Send the code using preffered SMS API provideer
+
+
+                //Return information 
+                Dictionary<string, string> res = new Dictionary<string, string>
+                {
+                    { "token", generateToken(claims, 0.6) }, //Ten minutes for code verification
+                    { "phoneNumber", phoneNumber }
+                };
+
+                return new OkObjectResult(res);
+            }
+            else //Verify code
+            {
+                List<Claim> verifiedClaims = new List<Claim>();
+
+               if( CommonMethods.VerifyJwtToken(token, _config["Jwt:Key"], out verifiedClaims, _config["Jwt:Issuer"], _config["Jwt:Audience"]))
+                {
+                    int phoneCode;
+                    int.TryParse(CommonMethods.getClaimValue("phoneCode", verifiedClaims) ?? "0", out phoneCode);
+                    
+                    string claimPhonenumber = CommonMethods.getClaimValue("phoneNumber", verifiedClaims)??string.Empty;
+
+                    if(phoneCode == code && claimPhonenumber == phoneNumber)
+                    {
+                        //Save data then return success
+                        int userID;
+                        int.TryParse(CommonMethods.getClaimValue("userid", verifiedClaims) ?? "0", out userID);
+
+                        try
+                        {
+                            using (SqlConnection _connection = new SqlConnection(_config.GetConnectionString("connString")))
+                            {
+                                await _connection.OpenAsync();
+
+                                using (SqlCommand command = new SqlCommand("spInsertUpdateAOuthUser", _connection))
+                                {
+                                    //Will proceed from here
+                                    
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            //Handle error request
+                        }
+                    }
+                }
+
+                return new UnauthorizedObjectResult("{message: Error processing your request}");
+
+            }
+        }
 
         private async Task<MUser> RegisterUser(dynamic userinfo)
         {
