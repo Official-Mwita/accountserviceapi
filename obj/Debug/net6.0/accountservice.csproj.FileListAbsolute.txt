@@ -208,3 +208,12 @@ C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\
 C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
 C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
 C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\ref\accountservice.dll
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.dll
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
