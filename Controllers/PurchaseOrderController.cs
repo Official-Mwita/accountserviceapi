@@ -207,6 +207,28 @@ namespace BookingApi.Controllers
                     return new OkObjectResult(orderitems);
                 
                 }
+            
+            [HttpDelete]
+            [Route("removeorderitem")]
+
+            public async Task<IActionResult> removeorderitem(MPurchaseOrderItem item) 
+                {
+                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                    Container container = cosmosClient.GetContainer(databaseId, containerId);
+                    var partitionKeyValue = item.partitionKey;
+                    var itemid = item.id;
+                    // Delete an item. Note we must provide the partition key value and id of the item to delete
+                    try {
+                    ItemResponse<MPurchaseOrderItem> itemResponse = await container.DeleteItemAsync<MPurchaseOrderItem>(itemid, new PartitionKey(partitionKeyValue));
+                    Console.WriteLine("Deleted item [{0},{1}]\n", partitionKeyValue, itemid);
+                    return new OkResult();
+
+                    } catch (Exception X) {
+                        Console.WriteLine(X.Message);
+                        return new BadRequestResult();
+                    }
+
+                }
 
 
         }
