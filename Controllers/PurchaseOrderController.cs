@@ -33,7 +33,7 @@ namespace BookingApi.Controllers
         public PurchaseOrderController(IConfiguration config)
         {
             _config = config;
-            _connection = new SqlConnection(_config.GetConnectionString("connString"));
+            _connection = new SqlConnection(_config.GetConnectionString("connString1"));
 
         }
 
@@ -43,10 +43,13 @@ namespace BookingApi.Controllers
             {
 
             Hashtable response = new Hashtable();
+            Random rnd = new Random();
+int         num = rnd.Next(100000, 500000);
 
             if (ModelState.IsValid)
             {
 
+               try {
 
                using (_connection)
                {
@@ -64,6 +67,7 @@ namespace BookingApi.Controllers
                        command.Parameters.AddWithValue("OrderDate", SqlDbType.NVarChar).Value = request.FormData.OrderDate;
                        command.Parameters.AddWithValue("DeliveryPeriod", SqlDbType.NVarChar).Value = request.FormData.DeliveryPeriod;
                        command.Parameters.AddWithValue("VehicleDetails", SqlDbType.NVarChar).Value = request.FormData.VehicleDetails;
+                       command.Parameters.AddWithValue("OrderNumber", SqlDbType.NVarChar).Value = num;                      
 
                        
                        using(SqlDataReader reader = await command.ExecuteReaderAsync())
@@ -85,13 +89,15 @@ namespace BookingApi.Controllers
                             using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
                                 {
                                     command.CommandType = CommandType.StoredProcedure;
-                                    command.Parameters.AddWithValue("itemName", SqlDbType.NVarChar).Value = PurchaseItem.item;
+                                    command.Parameters.AddWithValue("item", SqlDbType.NVarChar).Value = PurchaseItem.item;
                                     command.Parameters.AddWithValue("quantity", SqlDbType.NVarChar).Value = PurchaseItem.quantity;
                                     command.Parameters.AddWithValue("unitCost", SqlDbType.NVarChar).Value = PurchaseItem.unitCost;
                                     command.Parameters.AddWithValue("extendedCost", SqlDbType.NVarChar).Value = PurchaseItem.extendedCost;
                                     command.Parameters.AddWithValue("taxAmount", SqlDbType.NVarChar).Value = PurchaseItem.taxAmount;
                                     command.Parameters.AddWithValue("discountAmount", SqlDbType.NVarChar).Value = PurchaseItem.discountAmount;
                                     command.Parameters.AddWithValue("lineTotal", SqlDbType.NVarChar).Value = PurchaseItem.lineTotal;
+                                    command.Parameters.AddWithValue("partitionKey", SqlDbType.NVarChar).Value = num;
+                                    command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
 
                                     using(SqlDataReader reader = await command.ExecuteReaderAsync()){
 
@@ -112,11 +118,16 @@ namespace BookingApi.Controllers
                     }
                     catch (Exception Ex){
                         Console.WriteLine(Ex.Message);
-                        response.Add("tableStatus", "Success");
+                        response.Add("tableStatus", Ex.Message);
 
                     }
 
                }
+
+                } catch (Exception Ex) {
+                    Console.WriteLine(Ex.Message);
+                    return new BadRequestResult();
+                }
 
                return new OkObjectResult(response);
             }
@@ -229,6 +240,57 @@ namespace BookingApi.Controllers
                     }
 
                 }
+
+        [HttpGet]
+        [Route("orders")]
+        public async Task<IActionResult> GetAll()
+        {
+
+            try
+            {
+
+                List<Hashtable> orders = new List<Hashtable>();
+
+                using (_connection)
+                {
+                    //Connect to database then read booking records
+                    _connection.OpenAsync().Wait();
+
+                    using (SqlCommand command = new SqlCommand("spGetAllOrders", _connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        SqlDataReader reader = await command.ExecuteReaderAsync();
+                        while (reader.Read())
+                        {
+                            Hashtable order = new Hashtable();
+                            order.Add("costCenter", reader.GetString(0));
+                            order.Add("supplier", reader.GetString(1));
+                            order.Add("shipsTo", reader.GetString(2));
+                            order.Add("orderDate", reader.GetDateTime(3).Date.ToString());
+                            order.Add("orderAmount", reader.GetInt32(4));
+                            order.Add("deliveryPeriod", reader.GetInt32(5));
+                            order.Add("orderNumber", reader.GetInt32(6));
+                            order.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
+                            order.Add("vehicleDetails", reader.GetString(8));
+                            orders.Add(order);
+                    
+
+                        }
+
+                    }
+
+                }
+
+                return new OkObjectResult(orders);
+
+            }
+            catch(Exception ex)
+            {
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
 
 
         }

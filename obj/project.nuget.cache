@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yKKkfcuLfxFI96yn1AK3A8mxic1IIt0yeSMotfmFrmYBRRoUA12xVtSSBVrrSAUuMLXz6C5Ck3259w36bRDhhQ==",
+  "dgSpecHash": "3X/Iv6KUs1e1TQ0Q5/fJc5D3zugq1JSl4PoDnlKKpQAiMw/OBYMN3aKQkcvi4OekCXhaQOadAIlcHDYXnXqXaw==",
   "success": true,
-  "projectFilePath": "D:\\jay-work\\accountserviceapi\\accountservice.csproj",
+  "projectFilePath": "C:\\jay-work\\accountserviceapi\\accountservice.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Maurice\\.nuget\\packages\\azure.core\\1.28.0\\azure.core.1.28.0.nupkg.sha512",
     "C:\\Users\\Maurice\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

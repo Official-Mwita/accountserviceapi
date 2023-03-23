@@ -24,5 +24,6 @@ namespace BookingApi.Models
         public int DeliveryPeriod { get; set; }
         [Required]
         public string VehicleDetails { get; set; }
+        public int OrderNumber { get; set; }
     }
 }
