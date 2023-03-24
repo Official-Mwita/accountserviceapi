@@ -35,6 +35,8 @@ namespace accountservice
                     ops.LoginPath = "/login";
                 });
 
+            
+
             //Adding services and their implementation
             //services.AddTransient<ILogin, Login>();
 
@@ -50,6 +52,8 @@ namespace accountservice
                 app.UseCors(ops =>
                 {
 
+
+
                     string[] origins = {
                         "https://ibusiness-git-main-moryno.vercel.app", //Dashboard frontend link
                         "https://i-business-ui-git-main-moryno.vercel.app", //login frontend link
@@ -63,7 +67,7 @@ namespace accountservice
 
 
 
-                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET").WithHeaders("Cookie", "Content-Type", "X-Custom-Header","set-Cookie", "Authorization");
+                    ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET", "PUT", "DELETE").AllowAnyHeader();
                 });
             }
 
