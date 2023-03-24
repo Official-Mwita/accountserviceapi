@@ -33,7 +33,7 @@ namespace BookingApi.Controllers
         public PurchaseOrderController(IConfiguration config)
         {
             _config = config;
-            _connection = new SqlConnection(_config.GetConnectionString("connString1"));
+            _connection = new SqlConnection(_config.GetConnectionString("connString"));
 
         }
 
