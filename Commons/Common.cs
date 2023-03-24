@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,9 +13,9 @@ namespace accountservice.Commons
 
 
         //Returns a claim value in a list of claims based on the specified claim type
-        public static string getClaimValue(string claimtype, List<Claim> claims)
+        public static string? getClaimValue(string claimtype, List<Claim> claims)
         {
-            string value = string.Empty;
+            string? value = null;
 
             foreach (var claim in claims)
             {
@@ -25,6 +26,13 @@ namespace accountservice.Commons
             }
 
             return value;
+        }
+
+        public static Jwt GetJWTinfo(IConfiguration configuration)
+        {
+            Jwt token = configuration.GetSection("Jwt").Get<Jwt>();
+
+            return token;
         }
 
 
@@ -61,5 +69,17 @@ namespace accountservice.Commons
         }
 
     }
+
+    public class Jwt
+    {
+        public string Key { get; set; } = string.Empty;
+
+        public string Issuer { get; set; } = string.Empty;
+
+        public string Audience { get; set; } = string.Empty;
+
+        public string Subject { get; set; } = string.Empty;
+    }
+
 
 }

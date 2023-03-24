@@ -64,7 +64,11 @@ namespace accountservice.Commons
                                     break;
 
                                 case SqlDbType.TinyInt:
-                                    command.Parameters.AddWithValue(parameter.Name, parameter.Type).Value = Int16.Parse(parameter.Value ?? "-1");
+                                    command.Parameters.AddWithValue(parameter.Name, parameter.Type).Value = short.Parse(parameter.Value ?? "-1");
+                                    break;
+
+                                case SqlDbType.BigInt:
+                                    command.Parameters.AddWithValue(parameter.Name, parameter.Type).Value = long.Parse(parameter.Value ?? "-1");
                                     break;
 
                                 case SqlDbType.Money:
@@ -84,8 +88,9 @@ namespace accountservice.Commons
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
            
