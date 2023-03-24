@@ -10,12 +10,16 @@ namespace accountservice.Interfaces
 
         //The implementation of this method persforms standard login. that's using username/email
         //and password combination
-        public Task<IActionResult> StandardLogin(UserModel user);
+        //public Task<IActionResult> StandardLogin(UserModel user);
 
 
         //Login in user into our system by using Microsoft OpenID connect protocol
         public Task<IActionResult> LoginwithMicrosoft(string? code);
 
-        public Task<MUser> getUserInfo(string? email, string? username);
+        //public Task<MUser> getUserInfo(string? email, string? username);
+
+        public Task<IActionResult> HandleOAuthUserRegistration(MUser user, string auth_token, int? phonecode);
+
+        public Task<IActionResult> GeneratePhoneCode(string phoneNumber, string token);
     }
 }
