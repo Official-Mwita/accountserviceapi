@@ -7,7 +7,7 @@ namespace BookingApi.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long BookingId { get; set; }
+        public long? BookingId { get; set; }
 
 
         public string ExternalSchemeAdmin { get; set; } = string.Empty;
@@ -23,6 +23,6 @@ namespace BookingApi.Models
         public string TrainingVenue { get; set; } = string.Empty;
         public string PaymentMode { get; set; } = string.Empty;
         public string AdditionalRequirements { get; set; } = string.Empty;
-        public long UserId { get; set; }
+        public long? UserId { get; set; } 
     }
 }
