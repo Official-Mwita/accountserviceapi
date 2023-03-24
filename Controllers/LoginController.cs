@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using accountservice.ServiceFactory;
 using accountservice.Interfaces;
 using Microsoft.AspNetCore.Authentication;
+using accountservice.ForcedModels;
 
 namespace accountservice.Controllers
 {
@@ -27,32 +28,34 @@ namespace accountservice.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserModel user)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> Post([FromBody] UserModel user)
+        //{
             
-            Hashtable values = new Hashtable();
+        //    Hashtable values = new Hashtable();
             
-            if (ModelState.IsValid) //Try to login user otherwise return error
-            {
-                loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+        //    if (ModelState.IsValid) //Try to login user otherwise return error
+        //    {
+        //        loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
                 
-                return await loginService.StandardLogin(user);
+        //        return await loginService.StandardLogin(user);
 
-            }
-            else
-            {
-                values.Add("Message", "Error trying to process your request");
-                values.Add("Success", false);
+        //    }
+        //    else
+        //    {
+        //        values.Add("Message", "Error trying to process your request");
+        //        values.Add("Success", false);
 
-                return new BadRequestObjectResult(values)
-                {
-                    StatusCode = 408
-                };
-            }
+        //        return new BadRequestObjectResult(values)
+        //        {
+        //            StatusCode = 408
+        //        };
+        //    }
 
-        }
+       // } 
 
+
+        
 
         [HttpGet]
         [Route("Loginwithmicrosoft")]
@@ -62,6 +65,57 @@ namespace accountservice.Controllers
 
             return await loginService.LoginwithMicrosoft(code);
 
+        }
+
+        [HttpPost("Loginwithmicrosoft")]
+        public async Task<IActionResult> LoginwithMicrosoft([FromBody] MUser user, int? phonecode)
+        {
+            if (ModelState.IsValid)
+            {
+                var authorization = HttpContext.Request.Headers.Authorization;
+                if (authorization.Count > 0)
+                {
+                    string token = authorization[0].Substring("Bearer ".Length).Trim();
+
+                    loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+
+
+                    return await loginService.HandleOAuthUserRegistration(user, token, phonecode);
+
+                }
+
+
+
+
+                //User not authorized
+                return Unauthorized();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("verify_phone")]
+        public async Task<IActionResult> VerifyUserPhone([FromQuery]string userphone)
+        {
+            var authorization = HttpContext.Request.Headers.Authorization;
+            if (authorization.Count > 0)
+            {
+                string token = authorization[0].Substring("Bearer ".Length).Trim();
+
+                loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+
+
+                return await loginService.GeneratePhoneCode(userphone, token);
+
+            }
+
+
+
+
+            //User not authorized
+            return Unauthorized();
         }
 
     }
@@ -77,17 +131,6 @@ namespace accountservice.Controllers
         public string? Email { get; set; }
 
     }
-    internal class Jwt
-    {
-        public string Key { get; set; } = string.Empty;
-
-        public string Issuer { get; set; } = string.Empty;
-
-        public string Audience { get; set; } = string.Empty;
-
-        public string Subject { get; set; } = string.Empty;
-    }
-
 
 }
 
