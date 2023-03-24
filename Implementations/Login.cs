@@ -18,7 +18,7 @@ namespace accountservice.Implementations
 
     public class Login : ILogin
     {
-        public const string APP_ADDRESS = "https://bookingapptrial.azurewebsites.net";
+        public const string APP_ADDRESS = "https://ibusinessaccountservice.azurewebsites.net";
         //public const string APP_ADDRESS = "http://192.168.1.200:3000/";
 
         private readonly IConfiguration _config;
@@ -52,7 +52,7 @@ namespace accountservice.Implementations
                     { "code", code },
                     { "scope", "openid User.Read" },
                     { "client_id", _config["AzureAd:ClientId"]?? "no client id" },
-                    { "redirect_uri", "https://192.168.1.123:5000/login/Loginwithmicrosoft" },
+                    { "redirect_uri", "https://ibusinessaccountservice.azurewebsites.net/login/Loginwithmicrosoft" },
                     { "grant_type", "authorization_code" },
                     { "client_secret", _config["AzureAd:ClientSecret"]??"nosecret key" }
                 };
