@@ -9,17 +9,9 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = accountservice
 build_property.RootNamespace = accountservice
-<<<<<<< HEAD
 build_property.ProjectDir = D:\jay-work\accountserviceapi\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = D:\jay-work\accountserviceapi
-=======
-build_property.ProjectDir = D:\Personal\Coding\C-sharp\BookingApp\accountservice\
-build_property.RazorLangVersion = 6.0
-build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Personal\Coding\C-sharp\BookingApp\accountservice
->>>>>>> 6ab85a6a3b487ed2a47456be8a0f222615a26d71
 build_property._RazorSourceGeneratorDebug = 
