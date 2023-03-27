@@ -28,7 +28,7 @@ namespace accountservice.ForcedModels
 
         public string? UserName { get; set; } = string.Empty;
 
-
+        [JsonIgnore]
         public string? Password
         {
             get { return hashedPassword; }

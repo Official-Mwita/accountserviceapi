@@ -411,7 +411,7 @@ namespace accountservice.Implementations
 
 
         /// <summary>
-        /// Used to generate a token that is used to collect specific user for complete registration
+        /// Used to generate a token that is used to collect user specific iformation for a complete registration
         /// embedes principal name provided by Oauth provideer and immutable id that can be used later 
         /// to verify a user before adding their details to the database
         /// </summary>
