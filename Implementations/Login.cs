@@ -38,7 +38,7 @@ namespace accountservice.Implementations
             {
                 //Generate other values such as status and status code
                 string microsoft_login_url = _config.GetSection("Microsofturl").Get<string>();// "baseurl"
-                microsoft_login_url = microsoft_login_url.Replace("baseurl", loginurl);
+                microsoft_login_url = "http://localhost:3000/sign-in"; //microsoft_login_url.Replace("baseurl", loginurl);
 
                 return new RedirectResult(microsoft_login_url);
             }
@@ -54,7 +54,7 @@ namespace accountservice.Implementations
                     { "code", code },
                     { "scope", "openid User.Read" },
                     { "client_id", _config["AzureAd:ClientId"]?? "no client id" },
-                    { "redirect_uri", loginurl },
+                    { "redirect_uri", "http://localhost:3000/sign-in" },
                     { "grant_type", "authorization_code" },
                     { "client_secret", _config["AzureAd:ClientSecret"]??"nosecret key" }
                 };
