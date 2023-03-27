@@ -33,7 +33,7 @@ namespace BookingApi.Controllers
         public PurchaseOrderController(IConfiguration config)
         {
             _config = config;
-            _connection = new SqlConnection(_config.GetConnectionString("connString1"));
+            _connection = new SqlConnection(_config.GetConnectionString("connString"));
 
         }
 
@@ -44,7 +44,7 @@ namespace BookingApi.Controllers
 
             Hashtable response = new Hashtable();
             Random rnd = new Random();
-int         num = rnd.Next(100000, 500000);
+            int num = rnd.Next(100000, 500000);
 
             if (ModelState.IsValid)
             {
@@ -162,62 +162,62 @@ int         num = rnd.Next(100000, 500000);
                 
             }
 
-            [HttpPut]
-            [Route("updateorderitem")]
-            public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
-                if (ModelState.IsValid){
-                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
-                    Container container = cosmosClient.GetContainer(databaseId, containerId);
-                    ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
-                    Console.WriteLine(OrderItemResponse.Resource.id);
+        [HttpPut]
+        [Route("updateorderitem")]
+        public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
+            if (ModelState.IsValid){
+                CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                Container container = cosmosClient.GetContainer(databaseId, containerId);
+                ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
+                Console.WriteLine(OrderItemResponse.Resource.id);
 
-                    try {
-                        OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(item, item.id, new PartitionKey(item.partitionKey));
-                        return new OkResult();
-                    } catch(Exception e) {
-                        Console.WriteLine(e.Message);
-                        return new BadRequestResult();
+                try {
+                    OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(item, item.id, new PartitionKey(item.partitionKey));
+                    return new OkResult();
+                } catch(Exception e) {
+                    Console.WriteLine(e.Message);
+                    return new BadRequestResult();
 
-                    }
-                } 
-
-                return new BadRequestResult();
-
-                
-            }
-
-            [HttpPost]
-            [Route("getorderitems")]
-
-            public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
-                {
-                    
-                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
-                    Container container = cosmosClient.GetContainer(databaseId, containerId);
-                    string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{user.userid}'";
-                    QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
-                    FeedIterator<MPurchaseOrderItem> queryResultSetIterator = container.GetItemQueryIterator<MPurchaseOrderItem>(queryDefinition);
-
-                    List<MPurchaseOrderItem> orderitems = new List<MPurchaseOrderItem>();
-
-                    while (queryResultSetIterator.HasMoreResults)
-                        {
-                            try {
-                            FeedResponse<MPurchaseOrderItem> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                            foreach (MPurchaseOrderItem orderitem in currentResultSet)
-                                {
-                                    orderitems.Add(orderitem);
-                                    Console.WriteLine("\tRead {0}\n", orderitem.item);
-                                }
-                            } catch(Exception X){
-                                Console.WriteLine(X.Message);
-                                return new BadRequestResult();
-                            }
-                        }
-                    
-                    return new OkObjectResult(orderitems);
-                
                 }
+            } 
+
+            return new BadRequestResult();
+
+            
+        }
+
+        [HttpPost]
+        [Route("getorderitems")]
+
+        public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
+            {
+                
+                CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                Container container = cosmosClient.GetContainer(databaseId, containerId);
+                string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{user.userid}'";
+                QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
+                FeedIterator<MPurchaseOrderItem> queryResultSetIterator = container.GetItemQueryIterator<MPurchaseOrderItem>(queryDefinition);
+
+                List<MPurchaseOrderItem> orderitems = new List<MPurchaseOrderItem>();
+
+                while (queryResultSetIterator.HasMoreResults)
+                    {
+                        try {
+                        FeedResponse<MPurchaseOrderItem> currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                        foreach (MPurchaseOrderItem orderitem in currentResultSet)
+                            {
+                                orderitems.Add(orderitem);
+                                Console.WriteLine("\tRead {0}\n", orderitem.item);
+                            }
+                        } catch(Exception X){
+                            Console.WriteLine(X.Message);
+                            return new BadRequestResult();
+                        }
+                    }
+                
+                return new OkObjectResult(orderitems);
+            
+            }
             
             [HttpDelete]
             [Route("removeorderitem")]
@@ -241,59 +241,120 @@ int         num = rnd.Next(100000, 500000);
 
                 }
 
-        [HttpGet]
-        [Route("orders")]
-        public async Task<IActionResult> GetAll()
-        {
-
-            try
+            [HttpGet]
+            [Route("orders")]
+            public async Task<IActionResult> GetAll()
             {
 
-                List<Hashtable> orders = new List<Hashtable>();
-
-                using (_connection)
+                try
                 {
-                    //Connect to database then read booking records
-                    _connection.OpenAsync().Wait();
 
-                    using (SqlCommand command = new SqlCommand("spGetAllOrders", _connection))
+                    List<Hashtable> orders = new List<Hashtable>();
+
+                    using (_connection)
                     {
-                        command.CommandType = CommandType.StoredProcedure;
+                        //Connect to database then read booking records
+                        _connection.OpenAsync().Wait();
 
-                        SqlDataReader reader = await command.ExecuteReaderAsync();
-                        while (reader.Read())
+                        using (SqlCommand command = new SqlCommand("spGetAllOrders", _connection))
                         {
-                            Hashtable order = new Hashtable();
-                            order.Add("costCenter", reader.GetString(0));
-                            order.Add("supplier", reader.GetString(1));
-                            order.Add("shipsTo", reader.GetString(2));
-                            order.Add("orderDate", reader.GetDateTime(3).Date.ToString());
-                            order.Add("orderAmount", reader.GetInt32(4));
-                            order.Add("deliveryPeriod", reader.GetInt32(5));
-                            order.Add("orderNumber", reader.GetInt32(6));
-                            order.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
-                            order.Add("vehicleDetails", reader.GetString(8));
-                            orders.Add(order);
-                    
+                            command.CommandType = CommandType.StoredProcedure;
+
+                            using (SqlDataReader reader = await command.ExecuteReaderAsync()){
+                                while (reader.Read())
+                                {
+                                    Hashtable order = new Hashtable();
+                                    order.Add("costCenter", reader.GetString(0));
+                                    order.Add("supplier", reader.GetString(1));
+                                    order.Add("shipsTo", reader.GetString(2));
+                                    order.Add("orderDate", reader.GetDateTime(3).Date.ToString());
+                                    order.Add("orderAmount", reader.GetInt32(4));
+                                    order.Add("deliveryPeriod", reader.GetInt32(5));
+                                    order.Add("orderNumber", reader.GetInt32(6));
+                                    order.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
+                                    order.Add("vehicleDetails", reader.GetString(8));
+                                    orders.Add(order);
+                            
+
+                                }
+                            }
 
                         }
 
                     }
 
+                    return new OkObjectResult(orders);
+
+                }
+                catch(Exception ex)
+                {
+                    return new BadRequestObjectResult(ex.Message);
                 }
 
-                return new OkObjectResult(orders);
+            }
+
+            [HttpGet]
+            [Route("getorder")]
+            public async Task<IActionResult> getorder([FromQuery] int orderNumber)
+                {
+                    Hashtable order = new Hashtable();
+
+                    try {
+                        using(_connection) {
+                            _connection.OpenAsync().Wait();
+                            using (SqlCommand command = new SqlCommand("spGetPurchaseOrderInfo", _connection)) {
+                                command.CommandType = CommandType.StoredProcedure;
+                                command.Parameters.AddWithValue("orderNumber", SqlDbType.Int).Value = orderNumber;
+                                using (SqlDataReader reader = await command.ExecuteReaderAsync()){
+                                    while (reader.Read()) {
+                                        Hashtable formInfo = new Hashtable();
+                                        formInfo.Add("costCenter", reader.GetString(0));
+                                        formInfo.Add("supplier", reader.GetString(1));
+                                        formInfo.Add("shipsTo", reader.GetString(2));
+                                        formInfo.Add("orderDate", reader.GetDateTime(3).Date.ToString());
+                                        formInfo.Add("orderAmount", reader.GetInt32(4));
+                                        formInfo.Add("deliveryPeriod", reader.GetInt32(5));
+                                        formInfo.Add("orderNumber", reader.GetInt32(6));
+                                        formInfo.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
+                                        formInfo.Add("driverDetails", reader.GetString(8));
+                                        formInfo.Add("narration", reader.GetString(9));
+                                        order.Add("formInfo", formInfo);
+                                    }
+                                }
+                            }
+
+                            using (SqlCommand command = new SqlCommand("spGetPurchaseOrderItems", _connection)){
+                                List<Hashtable> orderitems = new List<Hashtable>();
+                                command.CommandType = CommandType.StoredProcedure;
+                                command.Parameters.AddWithValue("orderNumber", SqlDbType.Int).Value = orderNumber;
+                                using (SqlDataReader reader = await command.ExecuteReaderAsync()){
+                                    while (reader.Read()) {
+                                        Hashtable orderitem = new Hashtable();
+                                        orderitem.Add("item", reader.GetString(0));
+                                        orderitem.Add("quantity", reader.GetInt32(1));
+                                        orderitem.Add("unitCost", reader.GetDouble(2));
+                                        orderitem.Add("extendedCost", reader.GetDouble(3));
+                                        orderitem.Add("taxAmount", reader.GetDouble(4));
+                                        orderitem.Add("discountAmount", reader.GetDouble(5));
+                                        orderitem.Add("lineTotal", reader.GetDouble(6));
+                                        orderitems.Add(orderitem);
+                                    }
+                                }
+                                order.Add("tableData", orderitems);
+                            }
+                        }
+                        return new OkObjectResult(order);
+                    }
+                    catch (Exception Ex) {
+                        Console.WriteLine(Ex.Message);
+                        return new BadRequestResult();
+                    }
+                }
+
 
             }
-            catch(Exception ex)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
-        }
 
 
-
-        }
 
 
 

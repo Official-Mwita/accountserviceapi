@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\appsettings.Development.json
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\appsettings.json
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\accountservice.exe
@@ -216,6 +217,8 @@ D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPart
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.dll
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
+=======
+>>>>>>> 424fcf10496e58abbb2c7e25797c62c721c01b03
 D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
 D:\jay-work\accountserviceapi\bin\Debug\net6.0\Cosmos.CRTCompat.dll
 D:\jay-work\accountserviceapi\bin\Debug\net6.0\msvcp140.dll
@@ -282,17 +285,18 @@ D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Dr
 D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.build.json
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.development.json
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\scopedcss\bundle\accountservice.styles.css
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CopyComplete
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\ref\accountservice.dll
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.accountservice.Microsoft.AspNetCore.StaticWebAssets.props
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.build.accountservice.props
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.accountservice.props
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.accountservice.props
 D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.pack.json
+<<<<<<< HEAD
 C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
 C:\jay-work\accountserviceapi\bin\Debug\net6.0\Cosmos.CRTCompat.dll
 C:\jay-work\accountserviceapi\bin\Debug\net6.0\msvcp140.dll
@@ -404,3 +408,14 @@ D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\u
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+=======
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.build.json
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.development.json
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\scopedcss\bundle\accountservice.styles.css
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CopyComplete
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.dll
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
+D:\jay-work\accountserviceapi\obj\Debug\net6.0\ref\accountservice.dll
+>>>>>>> 424fcf10496e58abbb2c7e25797c62c721c01b03
