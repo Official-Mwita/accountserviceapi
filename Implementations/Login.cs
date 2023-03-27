@@ -23,7 +23,7 @@ namespace accountservice.Implementations
 
         private readonly IConfiguration _config;
         private readonly HttpContext _httpContext;
-
+        private string abc;
         public Login(IConfiguration config, HttpContext httpContext)
         {
             _config = config;
