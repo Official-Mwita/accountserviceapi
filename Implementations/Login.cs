@@ -31,14 +31,16 @@ namespace accountservice.Implementations
         }
 
 
-        public async Task<IActionResult> LoginwithMicrosoft(string? code)
+        public async Task<IActionResult> LoginwithMicrosoft(string? code, string loginurl)
         {
 
             if (code == null)
             {
                 //Generate other values such as status and status code
+                string microsoft_login_url = _config.GetSection("Microsofturllocal").Get<string>();// "baseurl"
+                microsoft_login_url = microsoft_login_url.Replace("baseurl", loginurl);
 
-                return new RedirectResult(_config.GetSection("Microsofturllocal").Get<string>());
+                return new RedirectResult(microsoft_login_url);
             }
             else
             {
@@ -52,7 +54,7 @@ namespace accountservice.Implementations
                     { "code", code },
                     { "scope", "openid User.Read" },
                     { "client_id", _config["AzureAd:ClientId"]?? "no client id" },
-                    { "redirect_uri", "http://localhost:3000/sign-in" },
+                    { "redirect_uri", loginurl },
                     { "grant_type", "authorization_code" },
                     { "client_secret", _config["AzureAd:ClientSecret"]??"nosecret key" }
                 };

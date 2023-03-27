@@ -5,6 +5,7 @@ using accountservice.ServiceFactory;
 using accountservice.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using accountservice.ForcedModels;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace accountservice.Controllers
 {
@@ -19,12 +20,6 @@ namespace accountservice.Controllers
         {
             _config = config;
 
-        }
-
-        [HttpGet("/free")]
-        public string Free(string name)
-        {
-            return "I gave this for your test Mr. " + name;
         }
 
 
@@ -63,7 +58,15 @@ namespace accountservice.Controllers
         {
             loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
 
-            return await loginService.LoginwithMicrosoft(code);
+            //Get login url
+            //Should be tested against whitelist url. Though microsoft does that
+            string loginurl = HttpContext.Request.GetEncodedUrl();
+
+            int queryIndex = loginurl.IndexOf('?') < 0 ? loginurl.Length : loginurl.IndexOf('?');
+
+            loginurl = loginurl.Substring(0, queryIndex);
+
+            return await loginService.LoginwithMicrosoft(code, loginurl);
 
         }
 
