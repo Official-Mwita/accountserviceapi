@@ -174,7 +174,9 @@ namespace accountservice.Implementations
                                             {"token", registrationToken },
                                             {"userinfo", loggedINUser},
                                             {"oauthprovider", "Microsoft" },
-                                            {"redirect_to", "/login/loginwithmicrosoft/" }
+                                            {"redirect_to", "/dashboard" },
+                                            {"registered", true }
+                                            
 
                                         };
 
@@ -192,7 +194,8 @@ namespace accountservice.Implementations
                                         {"token", registrationToken },
                                         {"graphinfo", userGraphInfo??new() },
                                         {"oauthprovider", "Microsoft" },
-                                        {"redirect_to", "/login/loginwithmicrosoft/" }
+                                        {"redirect_to", "/login/loginwithmicrosoft/" },
+                                        {"registered", true }
 
                                     };
 
