@@ -38,7 +38,7 @@ namespace accountservice.Implementations
             {
                 //Generate other values such as status and status code
                 string microsoft_login_url = _config.GetSection("Microsofturl").Get<string>();// "baseurl"
-                microsoft_login_url = "http://localhost:3000/sign-in"; //microsoft_login_url.Replace("baseurl", loginurl);
+                //microsoft_login_url = "http://localhost:3000/sign-in"; //microsoft_login_url.Replace("baseurl", loginurl);
 
                 return new RedirectResult(microsoft_login_url);
             }
