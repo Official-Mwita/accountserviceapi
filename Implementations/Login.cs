@@ -37,7 +37,7 @@ namespace accountservice.Implementations
             if (code == null)
             {
                 //Generate other values such as status and status code
-                string microsoft_login_url = _config.GetSection("Microsofturllocal").Get<string>();// "baseurl"
+                string microsoft_login_url = _config.GetSection("Microsofturl").Get<string>();// "baseurl"
                 microsoft_login_url = microsoft_login_url.Replace("baseurl", loginurl);
 
                 return new RedirectResult(microsoft_login_url);
@@ -230,7 +230,7 @@ namespace accountservice.Implementations
                 else
                 {
                     string con = await res.Content.ReadAsStringAsync();
-                    return new BadRequestObjectResult("Problem occurred while processing your request. Try again");
+                    return new BadRequestObjectResult(con);
                 }
             }
 
