@@ -172,7 +172,7 @@ namespace accountservice.Implementations
                                         IDictionary<string, object> returnvalues = new Dictionary<string, object>
                                         {
                                             {"token", registrationToken },
-                                            {"userinfo", loggedINUser},
+                                            {"user", loggedINUser},
                                             {"oauthprovider", "Microsoft" },
                                             {"redirect_to", "/dashboard" },
                                             {"registered", true }
@@ -194,8 +194,8 @@ namespace accountservice.Implementations
                                         {"token", registrationToken },
                                         {"graphinfo", userGraphInfo??new() },
                                         {"oauthprovider", "Microsoft" },
-                                        {"redirect_to", "/login/loginwithmicrosoft/" },
-                                        {"registered", true }
+                                        {"post_to", "/login/loginwithmicrosoft/" },
+                                        {"registered", false }
 
                                     };
 

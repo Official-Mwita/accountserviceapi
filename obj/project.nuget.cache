@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YEnMtFcpRVBKkh8niYCJaWRg0oPnI57zHZjYcF8Ysh9chr1mYh7tSCJFMmNwy0OnQhLyG7iIJz76a3BzQwKYcg==",
+  "dgSpecHash": "z6zvrU/MmjHZrivv8Zzjvm4lB+kQ9RZMgGpXA+Y5XMtM5dxWpKEia7MeamdAHWEb8xJ9G6I8SV4+kl+ZTb2qEA==",
   "success": true,
-  "projectFilePath": "D:\\Personal\\Coding\\C-sharp\\BookingApp\\accountservice\\accountservice.csproj",
+  "projectFilePath": "D:\\Personal\\Coding\\C-sharp\\outsourced\\accountserviceapi\\accountservice.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\azure.core\\1.28.0\\azure.core.1.28.0.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -3566,11 +3566,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Personal\\Coding\\C-sharp\\BookingApp\\accountservice\\accountservice.csproj",
+      "projectUniqueName": "D:\\Personal\\Coding\\C-sharp\\outsourced\\accountserviceapi\\accountservice.csproj",
       "projectName": "accountservice",
-      "projectPath": "D:\\Personal\\Coding\\C-sharp\\BookingApp\\accountservice\\accountservice.csproj",
+      "projectPath": "D:\\Personal\\Coding\\C-sharp\\outsourced\\accountserviceapi\\accountservice.csproj",
       "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "D:\\Personal\\Coding\\C-sharp\\BookingApp\\accountservice\\obj\\",
+      "outputPath": "D:\\Personal\\Coding\\C-sharp\\outsourced\\accountserviceapi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
