@@ -1,4 +1,8 @@
-<<<<<<< HEAD
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Cosmos.CRTCompat.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\msvcp140.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\vcruntime140.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\vcruntime140_1.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\appsettings.Development.json
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\appsettings.json
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\accountservice.exe
@@ -6,18 +10,60 @@ D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\accountser
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\accountservice.runtimeconfig.json
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\accountservice.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\accountservice.pdb
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Azure.Core.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Azure.Identity.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Client.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Core.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Direct.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Bcl.HashCode.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Graph.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Graph.Core.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Abstractions.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Authentication.Azure.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Http.HttpClientLibrary.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Form.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Json.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Text.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Data.SqlClient.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Drawing.Common.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Security.Permissions.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Text.Json.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Windows.Extensions.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Tavis.UriTemplates.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\Cosmos.CRTCompat.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Azure.Cosmos.ServiceInterop.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\msvcp140.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140_1.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
@@ -38,384 +84,3 @@ D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\refint\acc
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\accountservice.pdb
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
 D:\Personal\Coding\C-sharp\BookingApp\accountservice\obj\Debug\net6.0\ref\accountservice.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Azure.Core.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Azure.Identity.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Graph.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Graph.Core.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Abstractions.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Authentication.Azure.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Http.HttpClientLibrary.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Form.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Json.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Text.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Memory.Data.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Text.Encodings.Web.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Text.Json.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Tavis.UriTemplates.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\appsettings.Development.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\appsettings.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\accountservice.exe
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\accountservice.deps.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\accountservice.runtimeconfig.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\accountservice.pdb
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Azure.Core.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Azure.Identity.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Graph.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Graph.Core.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Kiota.Abstractions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Kiota.Authentication.Azure.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Kiota.Http.HttpClientLibrary.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Form.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Json.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Text.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.Data.SqlClient.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.Memory.Data.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\System.Text.Json.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\Tavis.UriTemplates.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets\msbuild.accountservice.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets\msbuild.build.accountservice.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.accountservice.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.accountservice.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets.build.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\staticwebassets.development.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\scopedcss\bundle\accountservice.styles.css
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.csproj.CopyComplete
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\refint\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.pdb
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\iBusinessAPI\obj\Debug\net6.0\ref\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\appsettings.Development.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\appsettings.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Cosmos.CRTCompat.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\msvcp140.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\vcruntime140.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\vcruntime140_1.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\accountservice.exe
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\accountservice.deps.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\accountservice.runtimeconfig.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\accountservice.pdb
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Azure.Core.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Azure.Identity.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Client.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Core.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Direct.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Bcl.HashCode.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Graph.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Graph.Core.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Abstractions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Authentication.Azure.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Http.HttpClientLibrary.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Form.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Json.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Text.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Data.SqlClient.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Drawing.Common.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Memory.Data.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Security.Permissions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Text.Json.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\System.Windows.Extensions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\Tavis.UriTemplates.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\Cosmos.CRTCompat.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Azure.Cosmos.ServiceInterop.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\msvcp140.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140_1.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.accountservice.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.build.accountservice.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.accountservice.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.accountservice.props
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets.build.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\staticwebassets.development.json
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\scopedcss\bundle\accountservice.styles.css
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CopyComplete
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
-C:\Users\Jay\Desktop\iBusiness App\iBusiness Backend Code\accountserviceapi\obj\Debug\net6.0\ref\accountservice.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
-=======
->>>>>>> 424fcf10496e58abbb2c7e25797c62c721c01b03
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Cosmos.CRTCompat.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\msvcp140.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\vcruntime140.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\vcruntime140_1.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\appsettings.Development.json
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\appsettings.json
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.exe
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.deps.json
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.runtimeconfig.json
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.pdb
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Azure.Core.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Azure.Identity.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Client.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Core.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Direct.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Bcl.HashCode.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Graph.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Graph.Core.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Abstractions.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Authentication.Azure.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Http.HttpClientLibrary.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Form.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Json.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Text.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Newtonsoft.Json.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Data.SqlClient.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Drawing.Common.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Memory.Data.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Security.Permissions.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Text.Encodings.Web.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Text.Json.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Windows.Extensions.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\Tavis.UriTemplates.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\Cosmos.CRTCompat.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Azure.Cosmos.ServiceInterop.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\msvcp140.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140_1.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-D:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.accountservice.Microsoft.AspNetCore.StaticWebAssets.props
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.build.accountservice.props
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.accountservice.props
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.accountservice.props
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.pack.json
-<<<<<<< HEAD
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Cosmos.CRTCompat.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\msvcp140.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\vcruntime140.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\vcruntime140_1.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\appsettings.Development.json
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\appsettings.json
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.exe
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.deps.json
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.runtimeconfig.json
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\accountservice.pdb
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Azure.Core.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Azure.Identity.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Client.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Core.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Direct.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Bcl.HashCode.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Graph.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Graph.Core.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Abstractions.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Authentication.Azure.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Http.HttpClientLibrary.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Form.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Json.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Kiota.Serialization.Text.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Data.SqlClient.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Drawing.Common.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Memory.Data.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Security.Permissions.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Text.Encodings.Web.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Text.Json.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\System.Windows.Extensions.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\Tavis.UriTemplates.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\Cosmos.CRTCompat.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Azure.Cosmos.ServiceInterop.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\msvcp140.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140_1.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\jay-work\accountserviceapi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.AssemblyReference.cache
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.GeneratedMSBuildEditorConfig.editorconfig
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfoInputs.cache
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.AssemblyInfo.cs
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CoreCompileInputs.cache
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.MvcApplicationPartsAssemblyInfo.cache
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.accountservice.Microsoft.AspNetCore.StaticWebAssets.props
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.build.accountservice.props
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.accountservice.props
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.accountservice.props
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.pack.json
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.build.json
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.development.json
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\scopedcss\bundle\accountservice.styles.css
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CopyComplete
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.dll
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
-C:\jay-work\accountserviceapi\obj\Debug\net6.0\ref\accountservice.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Cosmos.CRTCompat.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\msvcp140.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\vcruntime140.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\vcruntime140_1.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Client.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Core.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Direct.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Azure.Cosmos.Serialization.HybridRow.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Bcl.HashCode.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Drawing.Common.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Security.Permissions.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\System.Windows.Extensions.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\Cosmos.CRTCompat.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Azure.Cosmos.ServiceInterop.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\msvcp140.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win-x64\native\vcruntime140_1.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\Personal\Coding\C-sharp\BookingApp\accountservice\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-=======
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.build.json
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\staticwebassets.development.json
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\scopedcss\bundle\accountservice.styles.css
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.csproj.CopyComplete
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\refint\accountservice.dll
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.pdb
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\accountservice.genruntimeconfig.cache
-D:\jay-work\accountserviceapi\obj\Debug\net6.0\ref\accountservice.dll
->>>>>>> 424fcf10496e58abbb2c7e25797c62c721c01b03

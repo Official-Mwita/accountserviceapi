@@ -52,7 +52,7 @@ namespace accountservice.Implementations
                     { "code", code },
                     { "scope", "openid User.Read" },
                     { "client_id", _config["AzureAd:ClientId"]?? "no client id" },
-                    { "redirect_uri", "http://ibusinessaccountservice.azurewebsites.net/login/Loginwithmicrosoft" },
+                    { "redirect_uri", "http://localhost:3000/sign-in" },
                     { "grant_type", "authorization_code" },
                     { "client_secret", _config["AzureAd:ClientSecret"]??"nosecret key" }
                 };
