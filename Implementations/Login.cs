@@ -176,8 +176,8 @@ namespace accountservice.Implementations
                                             {"token", registrationToken },
                                             {"user", loggedINUser},
                                             {"oauthprovider", "Microsoft" },
-                                            {"redirect_to", "/dashboard" },
-                                            {"registered", true }
+                                            {"post_to", "/login/loginwithmicrosoft" },
+                                            {"registered", false }
                                             
 
                                         };
@@ -316,7 +316,7 @@ namespace accountservice.Implementations
                     {
                         await reader.ReadAsync();
 
-                        fullyRegistered = reader.GetInt16(0) == 1; //User extra data were successfuly obtained and database updated
+                        fullyRegistered = ((int)reader.GetByte(0)) == 1; //User extra data were successfuly obtained and database updated
                     }
                 }
 
