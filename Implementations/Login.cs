@@ -302,6 +302,7 @@ namespace accountservice.Implementations
         {
             bool fullyRegistered = false;
 
+
             //Get OAuth registration details
             try
             {
