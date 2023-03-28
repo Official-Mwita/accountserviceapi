@@ -176,8 +176,8 @@ namespace accountservice.Implementations
                                             {"token", registrationToken },
                                             {"user", loggedINUser},
                                             {"oauthprovider", "Microsoft" },
-                                            {"redirect_to", "/dashboard" },
-                                            {"registered", true }
+                                            {"post_to", "/login/loginwithmicrosoft" },
+                                            {"registered", false }
                                             
 
                                         };
@@ -302,6 +302,7 @@ namespace accountservice.Implementations
         {
             bool fullyRegistered = false;
 
+
             //Get OAuth registration details
             try
             {
@@ -316,7 +317,7 @@ namespace accountservice.Implementations
                     {
                         await reader.ReadAsync();
 
-                        fullyRegistered = reader.GetInt16(0) == 1; //User extra data were successfuly obtained and database updated
+                        fullyRegistered = ((int)reader.GetByte(0)) == 1; //User extra data were successfuly obtained and database updated
                     }
                 }
 
@@ -404,7 +405,7 @@ namespace accountservice.Implementations
                 claims.Add(new Claim(MUser.ADMIN_TYPE, loggedINUser.UserName.ToLower()));
             }
 
-            userinfo.Add("status", true);
+            userinfo.Add("registered", true);
             userinfo.Add("token", generateClaimsToken(claims, 10)); //10 hrs for a logged in token
             userinfo.Add("user", loggedINUser);
 
