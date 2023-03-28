@@ -405,7 +405,7 @@ namespace accountservice.Implementations
                 claims.Add(new Claim(MUser.ADMIN_TYPE, loggedINUser.UserName.ToLower()));
             }
 
-            userinfo.Add("status", true);
+            userinfo.Add("registered", true);
             userinfo.Add("token", generateClaimsToken(claims, 10)); //10 hrs for a logged in token
             userinfo.Add("user", loggedINUser);
 
