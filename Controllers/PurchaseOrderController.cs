@@ -81,7 +81,7 @@ namespace BookingApi.Controllers
                    }
 
                     try {
-                        foreach (var PurchaseItem in request?.TableData)
+                        foreach (var PurchaseItem in request.TableData)
                         {
                             using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
                                 {
@@ -140,19 +140,17 @@ namespace BookingApi.Controllers
             [HttpPost]
             [Route("insertorderitems")]
             public async Task<IActionResult> InsertOrderItems ([FromBody] MPurchaseOrderItem item) {
-                if (ModelState.IsValid){
-                    CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
-                    Container container = cosmosClient.GetContainer(databaseId, containerId);
-                    try {
-                        ItemResponse<MPurchaseOrderItem> response = await container.CreateItemAsync<MPurchaseOrderItem>(item, new PartitionKey(item.partitionKey));
-                        return new OkResult();
-                    } catch(Exception e) {
-                        Console.WriteLine(e.Message);
-                        return new BadRequestResult();
+            if (ModelState.IsValid){
+                CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
+                try {
+                    await handler.InsertItem(item, item.partitionKey);
+                    return new OkResult();
+                } catch(Exception e) {
+                    Console.WriteLine(e.Message);
+                    return new BadRequestResult();
 
-
-                    }
-                } 
+                }
+            } 
 
                 return new BadRequestResult();
 
@@ -163,21 +161,13 @@ namespace BookingApi.Controllers
         [Route("updateorderitem")]
         public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
             if (ModelState.IsValid){
-                //CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
-                //Container container = cosmosClient.GetContainer(databaseId, containerId);
-                //ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
                 CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
-                
-               // Console.WriteLine(OrderItemResponse.Resource.id);
-
                 try {
-                    handler.InsertItem(item, item.partitionKey).Wait();
-                    //OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(item, item.id, new PartitionKey(item.partitionKey));
+                    await handler.UpdateItem(item, item.id, item.partitionKey);
                     return new OkResult();
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);
                     return new BadRequestResult();
-
                 }
             } 
 
@@ -224,21 +214,21 @@ namespace BookingApi.Controllers
 
             public async Task<IActionResult> removeorderitem(MPurchaseOrderItem item) 
                 {
-                    CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
-                    Container container = cosmosClient.GetContainer(databaseId, containerId);
-                    var partitionKeyValue = item.partitionKey;
-                    var itemid = item.id;
-                    // Delete an item. Note we must provide the partition key value and id of the item to delete
-                    try {
-                    ItemResponse<MPurchaseOrderItem> itemResponse = await container.DeleteItemAsync<MPurchaseOrderItem>(itemid, new PartitionKey(partitionKeyValue));
-                    Console.WriteLine("Deleted item [{0},{1}]\n", partitionKeyValue, itemid);
-                    return new OkResult();
+                    if (ModelState.IsValid){
+                        CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
 
-                    } catch (Exception X) {
-                        Console.WriteLine(X.Message);
-                        return new BadRequestResult();
+                        try {
+                            await handler.RemoveItem(item.id, item.partitionKey);
+                            return new OkResult();
+                        }
+                        catch (Exception X) {
+                            Console.WriteLine(X.Message);
+                            return new BadRequestResult();
+                        }
+
                     }
-
+                    
+                    return new BadRequestResult();
                 }
 
             [HttpGet]
