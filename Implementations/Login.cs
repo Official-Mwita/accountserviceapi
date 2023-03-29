@@ -2,6 +2,7 @@
 using accountservice.Controllers;
 using accountservice.ForcedModels;
 using accountservice.Interfaces;
+using accountservice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -171,10 +172,14 @@ namespace accountservice.Implementations
                                         string registrationToken = FullRegistrationToken(userGraphInfo?.UserPrincipalName ?? "", userGraphInfo?.Id ?? "");
                                         //update graph info as saved in the database
 
+                                        userGraphInfo.DisplayName = loggedINUser.FullName;
+                                        userGraphInfo.GivenName = loggedINUser.UserName;
+                                        userGraphInfo.MobilePhone = loggedINUser.Telephone;
+
                                         IDictionary<string, object> returnvalues = new Dictionary<string, object>
                                         {
                                             {"token", registrationToken },
-                                            {"user", loggedINUser},
+                                            {"graphinfo", userGraphInfo},
                                             {"oauthprovider", "Microsoft" },
                                             {"post_to", "/login/loginwithmicrosoft" },
                                             {"registered", false }
@@ -476,22 +481,43 @@ namespace accountservice.Implementations
             {
                 Random rnd = new Random();
                 int code = rnd.Next(100000, 999999);
-                claims.Add(new Claim("phoneCode", "" + code));//Should preferer saving the code in a database
                 claims.Add(new Claim("phoneNumber", phoneNumber));
 
                 //Send the code using preffered SMS API provider
-
-
+                //As well as save it in to the cosmos db
                 //Return information 
                 Dictionary<string, string> res = new Dictionary<string, string>
                 {
                     { "token", generateClaimsToken(claims, 0.6) }, //Ten minutes for code verification
                     { "phoneNumber", phoneNumber }
-                };
+                };   
+                try
+                {
+                    //Send the code to user before saving it to the database
 
-                return new OkObjectResult(res);
+
+                    //Save it to the database
+                    CosmosDbHandler<MUserPhoneVerification> dbHandler = CosmosDbHandler<MUserPhoneVerification>.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
+                   
+                    MUserPhoneVerification item = new MUserPhoneVerification
+                    { phoneNumber = phoneNumber, ExpiryEpoch = DateTime.Now.AddMinutes(10).Ticks, VerificationCode = code };
+
+                    bool result = await dbHandler.InsertItem(item, item.phoneNumber);
+
+                    if(result)
+                        return new OkObjectResult(res);
+                }
+                catch(Exception ex)
+                {
+                    res.Clear();
+                    res.Add("status", "" + false);
+                    res.Add("message", ex.Message);
+
+                    return new BadRequestObjectResult(res);
+                }
+
             }
-            else //Unauthorized user
+            //Unauthorized user and other malformed requests not handled above
             {
                 return new UnauthorizedResult();
             }
