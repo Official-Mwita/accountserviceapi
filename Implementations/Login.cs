@@ -281,7 +281,7 @@ namespace accountservice.Implementations
                     {
 
                         //Update Oauth user information
-                        bool oaut_info_osuccess = await updateOauthUserDbInformation(true, VerifyPhoneCode(phonecode ?? 0, tokenClaims), "microsoft", immutableID);
+                        bool oaut_info_osuccess = await updateOauthUserDbInformation(true, VerifyPhoneCode(phonecode ?? 0, tokenClaims).Result, "microsoft", immutableID);
                         if(oaut_info_osuccess)
                             return new OkObjectResult(genetrateToken(registerUser));
                     }
@@ -449,7 +449,7 @@ namespace accountservice.Implementations
  
         }
 
-        private bool VerifyPhoneCode(int code, List<Claim> claims)
+        private async Task<bool> VerifyPhoneCode(int code, List<Claim> claims)
         {
             
 
@@ -616,7 +616,39 @@ namespace accountservice.Implementations
             return false;
         }
 
-      
+        public async Task<IActionResult> VerifyPhoneCode(int code, string token)
+        {
+
+            //Verify authenticity of the token, then retrive token in it
+            //First we verify token provided
+            Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
+
+            List<Claim> claims;
+            if (CommonMethods.VerifyJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience))
+            {
+                bool isPhoneVefiried = await VerifyPhoneCode(code, claims);
+
+                if (isPhoneVefiried)
+                {
+                    IDictionary<string, string> response = new Dictionary<string, string>
+                    {
+                        {"status", ""+true },
+                        {"message", "Phone verified successfully" }
+                    };
+
+                    return new OkObjectResult(response);
+                }
+
+            }
+
+                //Get phonecode from the database
+                CosmosDbHandler<MUserPhoneVerification> handler = CosmosDbHandler < MUserPhoneVerification >.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
+
+            string query = $"SELECT * FROM c WHERE c.phoneNumber = '{1}'";
+            throw new NotImplementedException();
+        }
+
+
 
 
 
