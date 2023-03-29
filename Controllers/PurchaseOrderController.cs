@@ -3,7 +3,6 @@ using BookingApi.Models;
 using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
-using Microsoft.Azure.Cosmos;
 using accountservice.Commons;
 
 
@@ -20,9 +19,6 @@ namespace BookingApi.Controllers
         // The primary key for the Azure Cosmos account.
 
         // The name of the database and container we will create
-        private string databaseId = "purchaseorderitems";
-        private string containerId = "orderitems";
-
 
         private readonly IConfiguration _config;
         private SqlConnection _connection;
@@ -183,7 +179,7 @@ namespace BookingApi.Controllers
                 if (ModelState.IsValid){
                     CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
                     string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
-                    
+
                     try {
                         List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(sqlQueryText);
                         return new OkObjectResult(orderitems);
