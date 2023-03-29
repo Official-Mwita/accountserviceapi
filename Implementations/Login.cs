@@ -24,7 +24,7 @@ namespace accountservice.Implementations
 
         private readonly IConfiguration _config;
         private readonly HttpContext _httpContext;
-        private string abc;
+
         public Login(IConfiguration config, HttpContext httpContext)
         {
             _config = config;
@@ -454,12 +454,27 @@ namespace accountservice.Implementations
             
 
             string phoneNumber = CommonMethods.getClaimValue("phoneNumber", claims)??"";
-            int savedPhonecode;
 
-            int.TryParse(CommonMethods.getClaimValue("phoneCode", claims)??"0", out savedPhonecode); //Should on be stored and retrieved from a secret vault
+            //Get phone code from cosmos db
+            //Get phonecode from the database
+            CosmosDbHandler<MUserPhoneVerification> handler = CosmosDbHandler<MUserPhoneVerification>.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
+
+            try
+            {
+                string query = $"SELECT * FROM c WHERE c.phoneNumber = '{phoneNumber}' and c.VerificationCode = {code}";
+
+                List<MUserPhoneVerification> verification = await handler.QuerySelector(query);
+
+                return verification.Count == 1 && verification[0].ExpiryEpoch > DateTime.Now.Ticks;
+                
+            }
+            catch
+            {
+                return false;
+            }
             //Provided code and claim phone must match stored and code
 
-            return savedPhonecode == code;
+            return false;
         }
 
 
@@ -640,11 +655,6 @@ namespace accountservice.Implementations
                 }
 
             }
-
-                //Get phonecode from the database
-                CosmosDbHandler<MUserPhoneVerification> handler = CosmosDbHandler < MUserPhoneVerification >.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
-
-            string query = $"SELECT * FROM c WHERE c.phoneNumber = '{1}'";
             throw new NotImplementedException();
         }
 
