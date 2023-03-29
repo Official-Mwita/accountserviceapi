@@ -81,7 +81,7 @@ namespace BookingApi.Controllers
                    }
 
                     try {
-                        foreach (var PurchaseItem in request.TableData)
+                        foreach (var PurchaseItem in request?.TableData)
                         {
                             using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
                                 {
