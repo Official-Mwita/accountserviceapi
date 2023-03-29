@@ -14,7 +14,11 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "login/Loginwithmicrosoft",
+<<<<<<< HEAD
       "applicationUrl": "http://192.168.1.254:5000",
+=======
+      "applicationUrl": "http://localhost:5000",
+>>>>>>> e33a7c7e982d9dcac7a91ff95d1c985528b635ec
       "sslPort": 44325,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
