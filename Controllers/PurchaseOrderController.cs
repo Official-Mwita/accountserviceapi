@@ -145,15 +145,15 @@ namespace BookingApi.Controllers
                 try {
                     await handler.InsertItem(item, item.partitionKey);
                     return new OkResult();
-                } catch(Exception e) {
+                }
+                catch(Exception e) {
                     Console.WriteLine(e.Message);
                     return new BadRequestResult();
 
                 }
             } 
 
-                return new BadRequestResult();
-
+            return new BadRequestResult();
                 
             }
 
@@ -165,7 +165,8 @@ namespace BookingApi.Controllers
                 try {
                     await handler.UpdateItem(item, item.id, item.partitionKey);
                     return new OkResult();
-                } catch(Exception e) {
+                }
+                catch(Exception e) {
                     Console.WriteLine(e.Message);
                     return new BadRequestResult();
                 }
@@ -173,41 +174,31 @@ namespace BookingApi.Controllers
 
             return new BadRequestResult();
 
-            
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("getorderitems")]
-
-        public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
+        public async Task<IActionResult> GetOrderItems ([FromQuery] string userid)
             {
-                
-                CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
-                Container container = cosmosClient.GetContainer(databaseId, containerId);
-                string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{user.userid}'";
-                QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
-                FeedIterator<MPurchaseOrderItem> queryResultSetIterator = container.GetItemQueryIterator<MPurchaseOrderItem>(queryDefinition);
-
-                List<MPurchaseOrderItem> orderitems = new List<MPurchaseOrderItem>();
-
-                while (queryResultSetIterator.HasMoreResults)
-                    {
-                        try {
-                        FeedResponse<MPurchaseOrderItem> currentResultSet = await queryResultSetIterator.ReadNextAsync();
-                        foreach (MPurchaseOrderItem orderitem in currentResultSet)
-                            {
-                                orderitems.Add(orderitem);
-                                Console.WriteLine("\tRead {0}\n", orderitem.item);
-                            }
-                        } catch(Exception X){
-                            Console.WriteLine(X.Message);
-                            return new BadRequestResult();
-                        }
+                if (ModelState.IsValid){
+                    CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
+                    string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                    
+                    try {
+                        List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(sqlQueryText);
+                        return new OkObjectResult(orderitems);
                     }
-                
-                return new OkObjectResult(orderitems);
-            
+
+                    catch(Exception X){
+                        Console.WriteLine(X.Message);
+                        return new BadRequestResult();
+                    }
+                }
+
+                return new BadRequestResult();
             }
+
+            
             
             [HttpDelete]
             [Route("removeorderitem")]
@@ -227,7 +218,7 @@ namespace BookingApi.Controllers
                         }
 
                     }
-                    
+
                     return new BadRequestResult();
                 }
 

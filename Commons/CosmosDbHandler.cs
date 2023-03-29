@@ -124,8 +124,6 @@ namespace accountservice.Commons
 
             ItemResponse<Data> updatedItem = await Container.ReadItemAsync<Data>(itemId, new PartitionKey(partitionKey));
 
-            Console.WriteLine(updatedItem.Resource);
-
             updatedItem = await Container.ReplaceItemAsync<Data>(item, itemId, new PartitionKey(partitionKey));
 
             result = updatedItem != null;
