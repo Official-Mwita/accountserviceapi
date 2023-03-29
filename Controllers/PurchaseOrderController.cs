@@ -4,6 +4,7 @@ using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Azure.Cosmos;
+using accountservice.Commons;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -162,13 +163,16 @@ namespace BookingApi.Controllers
         [Route("updateorderitem")]
         public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
             if (ModelState.IsValid){
-                CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
-                Container container = cosmosClient.GetContainer(databaseId, containerId);
-                ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
-                Console.WriteLine(OrderItemResponse.Resource.id);
+                //CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
+                //Container container = cosmosClient.GetContainer(databaseId, containerId);
+                //ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
+                CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
+                
+               // Console.WriteLine(OrderItemResponse.Resource.id);
 
                 try {
-                    OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(item, item.id, new PartitionKey(item.partitionKey));
+                    handler.InsertItem(item, item.partitionKey).Wait();
+                    //OrderItemResponse = await container.ReplaceItemAsync<MPurchaseOrderItem>(item, item.id, new PartitionKey(item.partitionKey));
                     return new OkResult();
                 } catch(Exception e) {
                     Console.WriteLine(e.Message);

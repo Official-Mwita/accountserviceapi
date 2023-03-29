@@ -100,8 +100,9 @@ namespace accountservice.Controllers
         }
 
         [HttpGet("verify_phone")]
-        public async Task<IActionResult> VerifyUserPhone([FromQuery]string userphone)
+        public async Task<IActionResult> VerifyUserPhone([FromQuery]string userphone, [FromQuery]string? code)
         {
+           
             var authorization = HttpContext.Request.Headers.Authorization;
             if (authorization.Count > 0)
             {
@@ -109,13 +110,22 @@ namespace accountservice.Controllers
 
                 loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
 
+                //Verify phone if code exists or generate code
+               
+                code = code ?? string.Empty;
+                int intCode;
+                int.TryParse(code ?? "0", out intCode);
+                if (string.IsNullOrEmpty(code))
+                {
+                    
+                    return await loginService.GeneratePhoneCode(userphone, token);
+                }
+                else //Verify phone code
+                {
 
-                return await loginService.GeneratePhoneCode(userphone, token);
+                }
 
             }
-
-
-
 
             //User not authorized
             return Unauthorized();

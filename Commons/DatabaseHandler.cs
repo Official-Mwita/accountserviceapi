@@ -16,7 +16,7 @@ namespace accountservice.Commons
 
         static DatabaseHandler()
         {
-            _databaseHandler= new DatabaseHandler();
+            _databaseHandler = new DatabaseHandler();
         }
         private DatabaseHandler() 
         {
