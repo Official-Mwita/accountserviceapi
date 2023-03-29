@@ -17,10 +17,7 @@ namespace BookingApi.Controllers
     [ApiController]
     public class PurchaseOrderController : ControllerBase
     {
-        private static readonly string EndpointUri = "https://purchaseorderitems.documents.azure.com:443/";
-
         // The primary key for the Azure Cosmos account.
-        private static readonly string PrimaryKey = "UEyhDWw0UF9CweujkD8xlhtnhWpucIJHiElDrLa47gL77EwBfCMueYfeDcwiZPwvB3VyX6uignNBACDbPg1ohQ==";
 
         // The name of the database and container we will create
         private string databaseId = "purchaseorderitems";
@@ -144,7 +141,7 @@ namespace BookingApi.Controllers
             [Route("insertorderitems")]
             public async Task<IActionResult> InsertOrderItems ([FromBody] MPurchaseOrderItem item) {
                 if (ModelState.IsValid){
-                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                    CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
                     Container container = cosmosClient.GetContainer(databaseId, containerId);
                     try {
                         ItemResponse<MPurchaseOrderItem> response = await container.CreateItemAsync<MPurchaseOrderItem>(item, new PartitionKey(item.partitionKey));
@@ -166,7 +163,7 @@ namespace BookingApi.Controllers
         [Route("updateorderitem")]
         public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
             if (ModelState.IsValid){
-                CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
                 Container container = cosmosClient.GetContainer(databaseId, containerId);
                 ItemResponse<MPurchaseOrderItem> OrderItemResponse = await container.ReadItemAsync<MPurchaseOrderItem>(item.id, new PartitionKey(item.partitionKey));
                 Console.WriteLine(OrderItemResponse.Resource.id);
@@ -192,7 +189,7 @@ namespace BookingApi.Controllers
         public async Task<IActionResult> GetOrderItems (MPurchaseOrderUser user)
             {
                 
-                CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
                 Container container = cosmosClient.GetContainer(databaseId, containerId);
                 string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{user.userid}'";
                 QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
@@ -224,7 +221,7 @@ namespace BookingApi.Controllers
 
             public async Task<IActionResult> removeorderitem(MPurchaseOrderItem item) 
                 {
-                    CosmosClient cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+                    CosmosClient cosmosClient = new CosmosClient(_config.GetValue<string>("PurchaseOrderCosmosString:endpointUri"), _config.GetValue<string>("PurchaseOrderCosmosString:primaryKey"));
                     Container container = cosmosClient.GetContainer(databaseId, containerId);
                     var partitionKeyValue = item.partitionKey;
                     var itemid = item.id;
