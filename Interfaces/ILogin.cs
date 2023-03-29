@@ -1,6 +1,7 @@
 ﻿using accountservice.Controllers;
 using accountservice.ForcedModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace accountservice.Interfaces
 {
@@ -21,5 +22,9 @@ namespace accountservice.Interfaces
         public Task<IActionResult> HandleOAuthUserRegistration(MUser user, string auth_token, int? phonecode);
 
         public Task<IActionResult> GeneratePhoneCode(string phoneNumber, string token);
+
+        public Task<IActionResult> VerifyPhoneCode(int code, string token);
+
+
     }
 }

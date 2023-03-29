@@ -1,4 +1,5 @@
 /bin
 /obj
-/.vs
-/.vscode
+.*
+git add .github
+git add .gitignore

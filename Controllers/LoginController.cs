@@ -113,8 +113,6 @@ namespace accountservice.Controllers
                 //Verify phone if code exists or generate code
                
                 code = code ?? string.Empty;
-                int intCode;
-                int.TryParse(code ?? "0", out intCode);
                 if (string.IsNullOrEmpty(code))
                 {
                     
@@ -122,6 +120,8 @@ namespace accountservice.Controllers
                 }
                 else //Verify phone code
                 {
+                    int intCode;
+                    int.TryParse(code ?? "0", out intCode);
 
                 }
 
