@@ -26,6 +26,9 @@ namespace accountservice
             // Add services to the container.
             services.AddControllers();
 
+            //Add data protection service
+            services.AddDataProtection();
+
             //Add cookie
             services.AddAuthentication
                 ("auth_cookie")
@@ -45,7 +48,7 @@ namespace accountservice
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
-            //if (env.IsDevelopment())
+            //if (!env.IsDevelopment())
             {
                 
 
@@ -70,6 +73,13 @@ namespace accountservice
                     ops.WithOrigins(origins).AllowCredentials().WithMethods("POST", "GET", "PUT", "DELETE").AllowAnyHeader();
                 });
             }
+            //else
+            //{
+            //    app.UseCors(opts =>
+            //    {
+            //        opts.AllowAnyMethod().AllowAnyOrigin().AllowAnyMethod();
+            //    });
+            //}
 
 
             // Configure the HTTP request pipeline.

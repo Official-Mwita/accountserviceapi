@@ -1,6 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 
@@ -67,6 +68,68 @@ namespace accountservice.Commons
                 return false;
             }
         }
+
+        //Verifies a Json token passed in the bearer header
+        //It first decrypt the token before passing it to the original verify jwt token (plain)
+        public static bool VerifyEncyptedJwtToken(string token, string secret, out List<Claim> claims, string issuer, string audience, IDataProtectionProvider decryptor, string encyptionKey)
+        {
+            string decrptedToken = Decrypt(token, encyptionKey, decryptor); //Decrypt key first
+
+            return VerifyJwtToken(decrptedToken, secret, out claims, issuer, audience);
+        }
+
+        /// <summary>
+        /// This method is used to send a generic OTP message to phone number owner
+        /// </summary>
+        /// <param name="phonenumber">Phone number of the user</param>
+        /// <param name="code">One time generated code</param>
+        /// <returns>true or false depending on API provider response success</returns>
+        public static async Task<bool> sendOtpMessage(string phonenumber, int code)
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.sandbox.africastalking.com");
+
+            Dictionary<string, string> postData = new Dictionary<string, string>
+                {
+                    { "username", "sandbox" },
+                    { "to", phonenumber },
+                    { "message", $"Your phone verification code is {code}. It should not be shared" },
+                    { "from", "joseph" }
+                };
+
+            var content = new FormUrlEncodedContent(postData);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            //Custom headers
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("apiKey", "6b39d1e1220520e89de3cf72402a5ec69c99ac66d29cd10bea28a8dd1aa24b5a");
+
+            HttpResponseMessage res = await client.PostAsync("/version1/messaging", content);
+
+
+            //// ADJson? js = await res.Content.ReadFromJsonAsync<ADJson>();
+            //string resBody = await res.Content.ReadAsStringAsync();
+
+            //Console.WriteLine(resBody);
+
+            return res.IsSuccessStatusCode;
+        }
+
+        public static string Encrypt(string payload, string secret, IDataProtectionProvider encryptor)
+        {
+            var protector = encryptor.CreateProtector(secret);
+            payload = protector.Protect(payload);
+            return payload;
+        }
+
+        public static string Decrypt(string payload, string secret, IDataProtectionProvider decryptor)
+        {
+            var protector = decryptor.CreateProtector(secret);
+            payload = protector.Unprotect(payload);
+
+            return payload;
+        }
+
 
     }
 

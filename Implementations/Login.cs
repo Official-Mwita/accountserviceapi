@@ -3,6 +3,7 @@ using accountservice.Controllers;
 using accountservice.ForcedModels;
 using accountservice.Interfaces;
 using accountservice.Models;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -24,11 +25,14 @@ namespace accountservice.Implementations
 
         private readonly IConfiguration _config;
         private readonly HttpContext _httpContext;
+        private readonly IDataProtectionProvider _idp; //For data protection such as encrypting and decryptin jwt token
 
-        public Login(IConfiguration config, HttpContext httpContext)
+        public Login(IConfiguration config, HttpContext httpContext, IDataProtectionProvider idp)
         {
             _config = config;
             _httpContext = httpContext;
+            _idp = idp;
+
         }
 
 
@@ -266,7 +270,7 @@ namespace accountservice.Implementations
 
             //Verify the token before proceding with user registration. 
             //Because we use token claims to register the user
-            if (CommonMethods.VerifyJwtToken(auth_token, tokencredential.Key, out tokenClaims, tokencredential.Issuer, tokencredential.Audience))
+            if (CommonMethods.VerifyEncyptedJwtToken(auth_token, tokencredential.Key, out tokenClaims, tokencredential.Issuer, tokencredential.Audience, _idp, _config["EncryptionKey"]))
             {
                 //Get user emal/principal name and user Oauth id from id. Use the information to add user to database
                 string? userprincipalname = CommonMethods.getClaimValue("principalName", tokenClaims);
@@ -370,6 +374,19 @@ namespace accountservice.Implementations
             return token;
         }
 
+        /// <summary>
+        /// Generates a JWT when provided a list of claims
+        /// Returns a string token
+        /// </summary>
+        /// <param name="claims">A list of claims</param>
+        /// <returns>string token</returns>
+        private string generateClaimsTokenEncrypted(List<Claim> claims, double validity, IDataProtectionProvider encryptor)
+        {
+            string plainToken = generateClaimsToken(claims, validity);
+
+            return CommonMethods.Encrypt(plainToken, _config["EncryptionKey"], encryptor);
+        }
+
         //A private function used to generate user JWT token per logged in user used across
         //All our API
         /// <summary>
@@ -411,7 +428,7 @@ namespace accountservice.Implementations
             }
 
             userinfo.Add("registered", true);
-            userinfo.Add("token", generateClaimsToken(claims, 10)); //10 hrs for a logged in token
+            userinfo.Add("token", generateClaimsTokenEncrypted(claims, 10, _idp)); //10 hrs for a logged in token
             userinfo.Add("user", loggedINUser);
 
             return userinfo;
@@ -445,7 +462,7 @@ namespace accountservice.Implementations
                                     };
 
 
-            return generateClaimsToken(claims, 0.6);
+            return generateClaimsTokenEncrypted(claims, 0.16667, _idp); //0.1667 for approximately ten minutes to complete the whole process. Unless start zero
  
         }
 
@@ -465,16 +482,19 @@ namespace accountservice.Implementations
 
                 List<MUserPhoneVerification> verification = await handler.QuerySelector(query);
 
-                return verification.Count == 1 && verification[0].ExpiryEpoch > DateTime.Now.Ticks;
+                //If success update db then return
+                if(verification.Count == 1 && verification[0].ExpiryEpoch > DateTime.Now.Ticks)
+                {
+
+                }
+
+                return true;
                 
             }
             catch
             {
                 return false;
             }
-            //Provided code and claim phone must match stored and code
-
-            return false;
         }
 
 
@@ -492,24 +512,31 @@ namespace accountservice.Implementations
             Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
 
             List<Claim> claims;
-            if (CommonMethods.VerifyJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience))
+            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _idp, _config["EncryptionKey"]))
             {
                 Random rnd = new Random();
                 int code = rnd.Next(100000, 999999);
                 claims.Add(new Claim("phoneNumber", phoneNumber));
+
+                //Get time that was to generate this token it will be same for the newly generated token
+                int seconds;
+                int.TryParse(CommonMethods.getClaimValue("exp", claims) ?? "0", out seconds);
+                double hoursPan = (DateTime.UnixEpoch.AddSeconds(seconds) - DateTime.UtcNow).Hours;
+                hoursPan = hoursPan < 0 ? 0.1667 : hoursPan; //Incase time expires but we are here, add 10 minutes
 
                 //Send the code using preffered SMS API provider
                 //As well as save it in to the cosmos db
                 //Return information 
                 Dictionary<string, string> res = new Dictionary<string, string>
                 {
-                    { "token", generateClaimsToken(claims, 0.6) }, //Ten minutes for code verification
+                    { "token", generateClaimsTokenEncrypted(claims, hoursPan, _idp)}, //Pass remaining hours of the original token
                     { "phoneNumber", phoneNumber }
                 };   
                 try
                 {
                     //Send the code to user before saving it to the database
-
+                    //happens asychronously. Response is immaterial
+                    await CommonMethods.sendOtpMessage(phoneNumber, code).ConfigureAwait(false);
 
                     //Save it to the database
                     CosmosDbHandler<MUserPhoneVerification> dbHandler = CosmosDbHandler<MUserPhoneVerification>.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
@@ -639,7 +666,7 @@ namespace accountservice.Implementations
             Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
 
             List<Claim> claims;
-            if (CommonMethods.VerifyJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience))
+            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _idp, _config["EncryptionKey"]))
             {
                 bool isPhoneVefiried = await VerifyPhoneCode(code, claims);
 
@@ -655,7 +682,8 @@ namespace accountservice.Implementations
                 }
 
             }
-            throw new NotImplementedException();
+            //Handles unauthorized request and any other bad requests
+            return new UnauthorizedObjectResult("Error occured processing your request");
         }
 
 
