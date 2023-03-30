@@ -172,6 +172,20 @@ namespace BookingApi.Controllers
 
         }
 
+        [HttpPut]
+        [Route("updateorderinfo")]
+        public async Task<IActionResult> updateorderinfo([FromBody] MPurchaseOrder order)
+            {
+                CosmosDbHandler<MPurchaseOrder> handler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation"); 
+                try {
+                    await handler.UpdateItem(order, order.id, order.id);
+                    return new OkResult();
+                }
+                catch(Exception Ex) {
+                    return new BadRequestObjectResult(Ex.Message);
+                }
+            }
+
         [HttpGet]
         [Route("getorderitems")]
         public async Task<IActionResult> GetOrderItems ([FromQuery] string userid)

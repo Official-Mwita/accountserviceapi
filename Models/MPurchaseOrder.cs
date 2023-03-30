@@ -25,6 +25,6 @@ namespace BookingApi.Models
         [Required]
         public string VehicleDetails { get; set; } = string.Empty;
         public int OrderNumber { get; set; }
-        public string id{get; set;} = string.Empty;
+        public string id {get; set;} = string.Empty;
     }
 }
