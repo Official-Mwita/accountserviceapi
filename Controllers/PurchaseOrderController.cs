@@ -30,19 +30,88 @@ namespace BookingApi.Controllers
 
         }
 
+        public async Task<Hashtable> fetchOrder (string userid)
+            {
+                Hashtable result = new Hashtable();
+                CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
+                CosmosDbHandler<MPurchaseOrder> infoHandler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
+                string itemsQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                string infoQueryText = $"SELECT * FROM c WHERE c.id = '{userid}'";
+
+                try {
+                    Hashtable order = new Hashtable();
+                    List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(itemsQueryText);
+                    List<MPurchaseOrder> orderinformation = await infoHandler.QuerySelector(infoQueryText);
+                    order.Add("orderItems", orderitems);
+                    order.Add("orderInformation", orderinformation);
+                    result.Add("code", "success");
+                    result.Add("data", order);
+                    return result;
+                }
+
+                catch(Exception X){
+                    Console.WriteLine(X.Message);
+                    result.Add("code", "failed");
+                    return result;
+                }
+
+            }
+
+        [HttpGet]
+        [Route("getorderitems")]
+        public async Task<IActionResult> GetOrderItems ([FromQuery] string userid)
+            {
+                if (ModelState.IsValid){
+                    CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
+                    CosmosDbHandler<MPurchaseOrder> infoHandler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
+                    string itemsQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                    string infoQueryText = $"SELECT * FROM c WHERE c.id = '{userid}'";
+
+                    try {
+                        Hashtable order = new Hashtable();
+                        List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(itemsQueryText);
+                        List<MPurchaseOrder> orderinformation = await infoHandler.QuerySelector(infoQueryText);
+                        order.Add("orderItems", orderitems);
+                        order.Add("orderInformation", orderinformation);
+                        return new OkObjectResult(order);
+                    }
+
+                    catch(Exception X){
+                        Console.WriteLine(X.Message);
+                        return new BadRequestResult();
+                    }
+
+                }
+
+                return new BadRequestResult();
+            }
+
+
         [HttpPost]
         [Route("createpurchaseorder")]
-        public async Task<IActionResult> insertPurchaseOrder(CompletePurchaseOrder request)
+        public async Task<IActionResult> insertPurchaseOrder(MPurchaseOrderUser user)
             {
 
+            string userid = user.userid;
             Hashtable response = new Hashtable();
+
             Random rnd = new Random();
             int num = rnd.Next(100000, 500000);
 
-            if (ModelState.IsValid)
-            {
+            Hashtable order;
+            List<MPurchaseOrder> orderInformation;
+            List<MPurchaseOrderItem> orderItems;
 
-               try {
+            try {
+               order = await fetchOrder(userid);
+               var itemsTable = order["data"] as Hashtable;
+               orderItems = itemsTable["orderItems"] as List<MPurchaseOrderItem>;
+               orderInformation = itemsTable["orderInformation"] as List<MPurchaseOrder>;
+               
+            }
+            catch(Exception Ex) {
+                return new BadRequestObjectResult(Ex.Message);
+            }
 
                using (_connection)
                {
@@ -51,15 +120,15 @@ namespace BookingApi.Controllers
                    using (SqlCommand command = new SqlCommand("spInsertPurchaseOrder", _connection))
                    {
                        command.CommandType = CommandType.StoredProcedure;
-                       command.Parameters.AddWithValue("CostCenter", SqlDbType.NVarChar).Value = request.FormData.CostCenter;
-                       command.Parameters.AddWithValue("Supplier", SqlDbType.NVarChar).Value = request.FormData.Supplier;
-                       command.Parameters.AddWithValue("ShipsTo", SqlDbType.NVarChar).Value = request.FormData.ShipsTo;
-                       command.Parameters.AddWithValue("OrderAmount", SqlDbType.NVarChar).Value = request.FormData.OrderAmount;
-                       command.Parameters.AddWithValue("FirstDeliveryDate", SqlDbType.NVarChar).Value = request.FormData.FirstDeliveryDate;
-                       command.Parameters.AddWithValue("Narration", SqlDbType.NVarChar).Value = request.FormData.Narration;
-                       command.Parameters.AddWithValue("OrderDate", SqlDbType.NVarChar).Value = request.FormData.OrderDate;
-                       command.Parameters.AddWithValue("DeliveryPeriod", SqlDbType.NVarChar).Value = request.FormData.DeliveryPeriod;
-                       command.Parameters.AddWithValue("VehicleDetails", SqlDbType.NVarChar).Value = request.FormData.VehicleDetails;
+                       command.Parameters.AddWithValue("CostCenter", SqlDbType.NVarChar).Value = orderInformation[0].CostCenter;
+                       command.Parameters.AddWithValue("Supplier", SqlDbType.NVarChar).Value = orderInformation[0].Supplier;
+                       command.Parameters.AddWithValue("ShipsTo", SqlDbType.NVarChar).Value = orderInformation[0].ShipsTo;
+                       command.Parameters.AddWithValue("OrderAmount", SqlDbType.NVarChar).Value = orderInformation[0].OrderAmount;
+                       command.Parameters.AddWithValue("FirstDeliveryDate", SqlDbType.NVarChar).Value = orderInformation[0].FirstDeliveryDate;
+                       command.Parameters.AddWithValue("Narration", SqlDbType.NVarChar).Value = orderInformation[0].Narration;
+                       command.Parameters.AddWithValue("OrderDate", SqlDbType.NVarChar).Value = orderInformation[0].OrderDate;
+                       command.Parameters.AddWithValue("DeliveryPeriod", SqlDbType.NVarChar).Value = orderInformation[0].DeliveryPeriod;
+                       command.Parameters.AddWithValue("VehicleDetails", SqlDbType.NVarChar).Value = orderInformation[0].VehicleDetails;
                        command.Parameters.AddWithValue("OrderNumber", SqlDbType.NVarChar).Value = num;                      
 
                        
@@ -77,7 +146,7 @@ namespace BookingApi.Controllers
                    }
 
                     try {
-                        foreach (var PurchaseItem in request.TableData)
+                        foreach (var PurchaseItem in orderItems)
                         {
                             using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
                                 {
@@ -117,19 +186,22 @@ namespace BookingApi.Controllers
 
                }
 
-                } catch (Exception Ex) {
+               try {
+                    CosmosDbHandler<MPurchaseOrder> handler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
+                    await handler.RemoveItem(orderInformation[0].id, orderInformation[0].id);
+                    CosmosDbHandler<MPurchaseOrderItem> itemHandler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
+                    foreach (var item in orderItems) {
+                        await itemHandler.RemoveItem(item.id, item.partitionKey);
+                    }
+                    
+               } 
+               catch(Exception Ex) {
                     Console.WriteLine(Ex.Message);
-                    return new BadRequestResult();
-                }
+               }
 
                return new OkObjectResult(response);
-            }
-            else
-            {
-               response.Add("Status", "Failed");
-               response.Add("Message", "Invalid Purchase Order");
-               return new JsonResult(request);
-            }
+
+
 
             }
 
@@ -186,34 +258,6 @@ namespace BookingApi.Controllers
                 }
             }
 
-        [HttpGet]
-        [Route("getorderitems")]
-        public async Task<IActionResult> GetOrderItems ([FromQuery] string userid)
-            {
-                if (ModelState.IsValid){
-                    CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
-                    CosmosDbHandler<MPurchaseOrder> infoHandler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
-                    string itemsQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
-                    string infoQueryText = $"SELECT * FROM c WHERE c.id = '{userid}'";
-
-                    try {
-                        Hashtable order = new Hashtable();
-                        List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(itemsQueryText);
-                        List<MPurchaseOrder> orderinformation = await infoHandler.QuerySelector(infoQueryText);
-                        order.Add("orderItems", orderitems);
-                        order.Add("orderInformation", orderinformation);
-                        return new OkObjectResult(order);
-                    }
-
-                    catch(Exception X){
-                        Console.WriteLine(X.Message);
-                        return new BadRequestResult();
-                    }
-
-                }
-
-                return new BadRequestResult();
-            }
 
             
             
