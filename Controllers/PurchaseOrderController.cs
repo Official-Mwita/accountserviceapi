@@ -178,17 +178,24 @@ namespace BookingApi.Controllers
             {
                 if (ModelState.IsValid){
                     CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
-                    string sqlQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                    CosmosDbHandler<MPurchaseOrder> infoHandler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
+                    string itemsQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                    string infoQueryText = $"SELECT * FROM c WHERE c.id = '{userid}'";
 
                     try {
-                        List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(sqlQueryText);
-                        return new OkObjectResult(orderitems);
+                        Hashtable order = new Hashtable();
+                        List<MPurchaseOrderItem> orderitems = await handler.QuerySelector(itemsQueryText);
+                        List<MPurchaseOrder> orderinformation = await infoHandler.QuerySelector(infoQueryText);
+                        order.Add("orderItems", orderitems);
+                        order.Add("orderInformation", orderinformation);
+                        return new OkObjectResult(order);
                     }
 
                     catch(Exception X){
                         Console.WriteLine(X.Message);
                         return new BadRequestResult();
                     }
+
                 }
 
                 return new BadRequestResult();
@@ -269,6 +276,21 @@ namespace BookingApi.Controllers
                 }
 
             }
+
+            [HttpPost]
+            [Route("addorderinformation")]
+            public async Task<IActionResult> addorderinformation([FromBody] MPurchaseOrder order)
+                {
+                    CosmosDbHandler<MPurchaseOrder> handler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
+                    try {
+                        await handler.InsertItem(order, order.id);
+                        return new OkResult();
+                    }
+                    catch (Exception Ex){
+                        return new BadRequestObjectResult(Ex.Message);
+                    }
+                }
+
 
             [HttpGet]
             [Route("getorder")]
