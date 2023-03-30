@@ -121,8 +121,15 @@ namespace accountservice.Commons
         public async Task<bool> UpdateItem(Data item, string itemId, string partitionKey)
         {
             bool result;
+            ItemResponse<Data> updatedItem;
 
-            ItemResponse<Data> updatedItem = await Container.ReadItemAsync<Data>(itemId, new PartitionKey(partitionKey));
+            try {
+                updatedItem = await Container.ReadItemAsync<Data>(itemId, new PartitionKey(partitionKey));
+
+            } catch(Exception Ex){
+                Console.WriteLine(Ex);
+                updatedItem = await Container.CreateItemAsync<Data>(item, new PartitionKey(partitionKey));
+            }
 
             updatedItem = await Container.ReplaceItemAsync<Data>(item, itemId, new PartitionKey(partitionKey));
 
