@@ -1,6 +1,4 @@
-﻿using System;
-using BookingApi.Interfaces;
-using System.ComponentModel.DataAnnotations;
+﻿using BookingApi.Interfaces;
 
 namespace BookingApi.Models
 {

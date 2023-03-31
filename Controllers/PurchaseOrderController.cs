@@ -248,10 +248,13 @@ namespace BookingApi.Controllers
         [Route("updateorderinfo")]
         public async Task<IActionResult> updateorderinfo([FromBody] MPurchaseOrder order)
             {
+                if (order == null) {
+                    return new OkResult();
+                }
                 CosmosDbHandler<MPurchaseOrder> handler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation"); 
                 try {
                     await handler.UpdateItem(order, order.id, order.id);
-                    return new OkResult();
+                    return new OkObjectResult(order);
                 }
                 catch(Exception Ex) {
                     return new BadRequestObjectResult(Ex.Message);
