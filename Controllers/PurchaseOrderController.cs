@@ -56,6 +56,7 @@ namespace BookingApi.Controllers
                 }
 
             }
+            
 
         [HttpGet]
         [Route("getorderitems")]
@@ -376,7 +377,7 @@ namespace BookingApi.Controllers
                                         formInfo.Add("deliveryPeriod", reader.GetInt32(5));
                                         formInfo.Add("orderNumber", reader.GetInt32(6));
                                         formInfo.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
-                                        formInfo.Add("driverDetails", reader.GetString(8));
+                                        formInfo.Add("vehicleDetails", reader.GetString(8));
                                         formInfo.Add("narration", reader.GetString(9));
                                         order.Add("formInfo", formInfo);
                                     }
