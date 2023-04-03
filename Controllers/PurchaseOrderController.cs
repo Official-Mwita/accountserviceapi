@@ -162,16 +162,8 @@ namespace BookingApi.Controllers
                                     command.Parameters.AddWithValue("partitionKey", SqlDbType.NVarChar).Value = num;
                                     command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
 
-                                    using(SqlDataReader reader = await command.ExecuteReaderAsync()){
+                                    using(await command.ExecuteReaderAsync());
 
-                                        if (reader.HasRows)
-                                        {
-                                            reader.Read();
-                                            response.Add("tableStatus", reader.GetInt32(0));
-
-                                        }
-
-                                    }
 
                                 }
                             
@@ -398,6 +390,8 @@ namespace BookingApi.Controllers
                                         orderitem.Add("taxAmount", reader.GetDouble(4));
                                         orderitem.Add("discountAmount", reader.GetDouble(5));
                                         orderitem.Add("lineTotal", reader.GetDouble(6));
+                                        orderitem.Add("id", reader.GetString(7));
+                                        orderitem.Add("partitionKey", reader.GetInt32(8));
                                         orderitems.Add(orderitem);
                                     }
                                 }
@@ -410,6 +404,82 @@ namespace BookingApi.Controllers
                         Console.WriteLine(Ex.Message);
                         return new BadRequestResult();
                     }
+                }
+
+            [HttpPut]
+            [Route("updateorder")]
+            public async Task<IActionResult> updateOrder(CompletePurchaseOrder order)
+                {
+                    var orderInformation = order.FormData;
+
+                    var orderNumber = Convert.ToString(orderInformation.OrderNumber);
+
+                    Hashtable response = new Hashtable();
+
+                using (_connection)
+                {
+                   _connection.OpenAsync().Wait();
+                   
+                   using (SqlCommand command = new SqlCommand("spInsertPurchaseOrder", _connection))
+                   {
+                       command.CommandType = CommandType.StoredProcedure;
+                       command.Parameters.AddWithValue("CostCenter", SqlDbType.NVarChar).Value = orderInformation.CostCenter;
+                       command.Parameters.AddWithValue("Supplier", SqlDbType.NVarChar).Value = orderInformation.Supplier;
+                       command.Parameters.AddWithValue("ShipsTo", SqlDbType.NVarChar).Value = orderInformation.ShipsTo;
+                       command.Parameters.AddWithValue("OrderAmount", SqlDbType.NVarChar).Value = orderInformation.OrderAmount;
+                       command.Parameters.AddWithValue("FirstDeliveryDate", SqlDbType.NVarChar).Value = orderInformation.FirstDeliveryDate;
+                       command.Parameters.AddWithValue("Narration", SqlDbType.NVarChar).Value = orderInformation.Narration;
+                       command.Parameters.AddWithValue("OrderDate", SqlDbType.NVarChar).Value = orderInformation.OrderDate;
+                       command.Parameters.AddWithValue("DeliveryPeriod", SqlDbType.NVarChar).Value = orderInformation.DeliveryPeriod;
+                       command.Parameters.AddWithValue("VehicleDetails", SqlDbType.NVarChar).Value = orderInformation.VehicleDetails;
+                       command.Parameters.AddWithValue("OrderNumber", SqlDbType.NVarChar).Value = orderInformation.OrderNumber;                      
+
+                       
+                       using(SqlDataReader reader = await command.ExecuteReaderAsync())
+                       {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                response.Add("formStatus", reader.GetInt32(0));
+                                                               
+                            }
+
+                       }
+
+                   }
+
+                    try {
+                        foreach (var PurchaseItem in order.TableData)
+                        {
+                            using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
+                                {
+                                    command.CommandType = CommandType.StoredProcedure;
+                                    command.Parameters.AddWithValue("item", SqlDbType.NVarChar).Value = PurchaseItem.item;
+                                    command.Parameters.AddWithValue("quantity", SqlDbType.NVarChar).Value = PurchaseItem.quantity;
+                                    command.Parameters.AddWithValue("unitCost", SqlDbType.NVarChar).Value = PurchaseItem.unitCost;
+                                    command.Parameters.AddWithValue("extendedCost", SqlDbType.NVarChar).Value = PurchaseItem.extendedCost;
+                                    command.Parameters.AddWithValue("taxAmount", SqlDbType.NVarChar).Value = PurchaseItem.taxAmount;
+                                    command.Parameters.AddWithValue("discountAmount", SqlDbType.NVarChar).Value = PurchaseItem.discountAmount;
+                                    command.Parameters.AddWithValue("lineTotal", SqlDbType.NVarChar).Value = PurchaseItem.lineTotal;
+                                    command.Parameters.AddWithValue("partitionKey", SqlDbType.NVarChar).Value = orderNumber;
+                                    command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
+
+                                    using(await command.ExecuteReaderAsync());
+
+                                }
+                            
+                        }
+                        response.Add("tableStatus", 1);
+
+                    }
+                    catch (Exception Ex){
+                        Console.WriteLine(Ex.Message);
+                        response.Add("tableStatus", Ex.Message);
+
+                    }
+                    return new OkObjectResult(response);
+
+               }
                 }
 
 

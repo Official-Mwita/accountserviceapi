@@ -11,7 +11,7 @@ namespace BookingApi.Models
         public double taxAmount { get; set; }
         public double discountAmount { get; set; }
         public double lineTotal { get; set; }
-        public string partitionKey { get; set; } = string.Empty;
+        public string partitionKey { get; set; }
 
         public string id { get; set; } = string.Empty;
     }
