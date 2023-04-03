@@ -34,7 +34,7 @@ namespace accountservice.Commons
 
         private CosmosDbHandler(string databaseId, string containerId)
         {
-            _containerId= containerId;
+            _containerId = containerId;
             _databaseId = databaseId;
         }
 
@@ -56,7 +56,7 @@ namespace accountservice.Commons
         public static CosmosDbHandler<Data> CreateCosmosHandlerInstance(string databaseId, string containerId)
         {
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler._containerId = containerId;
                 handler._databaseId = databaseId;
@@ -118,6 +118,27 @@ namespace accountservice.Commons
             return result;
         }
 
+        public async Task<bool> UpdateItem(Data item, string itemId, string partitionKey)
+        {
+            bool result;
+            ItemResponse<Data> updatedItem;
+
+            try {
+                updatedItem = await Container.ReadItemAsync<Data>(itemId, new PartitionKey(partitionKey));
+
+            } catch(Exception Ex){
+                Console.WriteLine(Ex);
+                updatedItem = await Container.CreateItemAsync<Data>(item, new PartitionKey(partitionKey));
+            }
+
+            updatedItem = await Container.ReplaceItemAsync<Data>(item, itemId, new PartitionKey(partitionKey));
+
+            result = updatedItem != null;
+
+            return result;
+
+        }
+
 
         /// <summary>
         /// Removes/Deletes a specified item from your Cosmos db database
@@ -125,7 +146,7 @@ namespace accountservice.Commons
         /// <param name="itemId">string value representing itemid of the item to delete</param>
         /// <param name="partitionKey">Partition key used to add the item to the database</param>
         /// <returns>Response item that was deleted</returns>
-        public async Task<Data> RemoveItemAsync(string itemId, string partitionKey)
+        public async Task<Data> RemoveItem(string itemId, string partitionKey)
         {
             ItemResponse<Data> itemResponse = await Container.DeleteItemAsync<Data>(itemId, new PartitionKey(partitionKey));
 
