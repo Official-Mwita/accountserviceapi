@@ -5,6 +5,7 @@ using accountservice.Interfaces;
 using accountservice.ForcedModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.DataProtection;
+using accountservice.Commons;
 
 namespace accountservice.Controllers
 {
@@ -15,7 +16,7 @@ namespace accountservice.Controllers
 
         private readonly IConfiguration _config;
         private readonly IDataProtectionProvider _idp;
-        private ILogin loginService;
+        private ILogin? loginService;
         public LoginController(IConfiguration config, IDataProtectionProvider idp)
         {
             _config = config;
@@ -50,14 +51,7 @@ namespace accountservice.Controllers
 
         // } 
 
-        [HttpGet("/geturl")]
-        public IActionResult trialmethod()
-        {
 
-            return Ok();        }
-
-
-        
 
         [HttpGet]
         [Route("Loginwithmicrosoft")]

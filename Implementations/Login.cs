@@ -270,7 +270,7 @@ namespace accountservice.Implementations
 
             //Verify the token before proceding with user registration. 
             //Because we use token claims to register the user
-            if (CommonMethods.VerifyEncyptedJwtToken(auth_token, tokencredential.Key, out tokenClaims, tokencredential.Issuer, tokencredential.Audience, _idp, _config["EncryptionKey"]))
+            if (CommonMethods.VerifyEncyptedJwtToken(auth_token, tokencredential.Key, out tokenClaims, tokencredential.Issuer, tokencredential.Audience, _config))
             {
                 //Get user emal/principal name and user Oauth id from id. Use the information to add user to database
                 string? userprincipalname = CommonMethods.getClaimValue("principalName", tokenClaims);
@@ -380,11 +380,12 @@ namespace accountservice.Implementations
         /// </summary>
         /// <param name="claims">A list of claims</param>
         /// <returns>string token</returns>
-        private string generateClaimsTokenEncrypted(List<Claim> claims, double validity, IDataProtectionProvider encryptor)
+        private string generateClaimsTokenEncrypted(List<Claim> claims, double validity)
         {
             string plainToken = generateClaimsToken(claims, validity);
+            
 
-            return CommonMethods.Encrypt(plainToken, _config["EncryptionKey"], encryptor);
+            return new AesEncryption(_config).Encrypt(plainToken);
         }
 
         //A private function used to generate user JWT token per logged in user used across
@@ -428,7 +429,7 @@ namespace accountservice.Implementations
             }
 
             userinfo.Add("registered", true);
-            userinfo.Add("token", generateClaimsTokenEncrypted(claims, 10, _idp)); //10 hrs for a logged in token
+            userinfo.Add("token", generateClaimsTokenEncrypted(claims, 10)); //10 hrs for a logged in token
             userinfo.Add("user", loggedINUser);
 
             return userinfo;
@@ -462,7 +463,7 @@ namespace accountservice.Implementations
                                     };
 
 
-            return generateClaimsTokenEncrypted(claims, 0.16667, _idp); //0.1667 for approximately ten minutes to complete the whole process. Unless start zero
+            return generateClaimsTokenEncrypted(claims, 0.16667); //0.1667 for approximately ten minutes to complete the whole process. Unless start zero
  
         }
 
@@ -512,7 +513,7 @@ namespace accountservice.Implementations
             Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
 
             List<Claim> claims;
-            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _idp, _config["EncryptionKey"]))
+            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _config))
             {
                 Random rnd = new Random();
                 int code = rnd.Next(100000, 999999);
@@ -529,7 +530,7 @@ namespace accountservice.Implementations
                 //Return information 
                 Dictionary<string, string> res = new Dictionary<string, string>
                 {
-                    { "token", generateClaimsTokenEncrypted(claims, hoursPan, _idp)}, //Pass remaining hours of the original token
+                    { "token", generateClaimsTokenEncrypted(claims, hoursPan)}, //Pass remaining hours of the original token
                     { "phoneNumber", phoneNumber }
                 };   
                 try
@@ -666,7 +667,7 @@ namespace accountservice.Implementations
             Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
 
             List<Claim> claims;
-            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _idp, _config["EncryptionKey"]))
+            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _config))
             {
                 bool isPhoneVefiried = await VerifyPhoneCode(code, claims);
 

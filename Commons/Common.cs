@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -71,9 +70,9 @@ namespace accountservice.Commons
 
         //Verifies a Json token passed in the bearer header
         //It first decrypt the token before passing it to the original verify jwt token (plain)
-        public static bool VerifyEncyptedJwtToken(string token, string secret, out List<Claim> claims, string issuer, string audience, IDataProtectionProvider decryptor, string encyptionKey)
+        public static bool VerifyEncyptedJwtToken(string token, string secret, out List<Claim> claims, string issuer, string audience, IConfiguration config)
         {
-            string decrptedToken = Decrypt(token, encyptionKey, decryptor); //Decrypt key first
+            string decrptedToken = new AesEncryption(config).Decrypt(token);//Token supplied is encrypted decrypt it first
 
             return VerifyJwtToken(decrptedToken, secret, out claims, issuer, audience);
         }
@@ -113,21 +112,6 @@ namespace accountservice.Commons
             //Console.WriteLine(resBody);
 
             return res.IsSuccessStatusCode;
-        }
-
-        public static string Encrypt(string payload, string secret, IDataProtectionProvider encryptor)
-        {
-            var protector = encryptor.CreateProtector(secret);
-            payload = protector.Protect(payload);
-            return payload;
-        }
-
-        public static string Decrypt(string payload, string secret, IDataProtectionProvider decryptor)
-        {
-            var protector = decryptor.CreateProtector(secret);
-            payload = protector.Unprotect(payload);
-
-            return payload;
         }
 
 
