@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using accountservice.ServiceFactory;
 using accountservice.Interfaces;
-using Microsoft.AspNetCore.Authentication;
 using accountservice.ForcedModels;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.DataProtection;
+using accountservice.Commons;
 
 namespace accountservice.Controllers
 {
@@ -15,10 +15,12 @@ namespace accountservice.Controllers
     {
 
         private readonly IConfiguration _config;
-        private ILogin loginService;
-        public LoginController(IConfiguration config)
+        private readonly IDataProtectionProvider _idp;
+        private ILogin? loginService;
+        public LoginController(IConfiguration config, IDataProtectionProvider idp)
         {
             _config = config;
+            _idp = idp;
 
         }
 
@@ -26,13 +28,13 @@ namespace accountservice.Controllers
         //[HttpPost]
         //public async Task<IActionResult> Post([FromBody] UserModel user)
         //{
-            
+
         //    Hashtable values = new Hashtable();
-            
+
         //    if (ModelState.IsValid) //Try to login user otherwise return error
         //    {
         //        loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
-                
+
         //        return await loginService.StandardLogin(user);
 
         //    }
@@ -47,16 +49,15 @@ namespace accountservice.Controllers
         //        };
         //    }
 
-       // } 
+        // } 
 
 
-        
 
         [HttpGet]
         [Route("Loginwithmicrosoft")]
         public async Task<IActionResult> LoginwithMicrosoft(string? code)
         {
-            loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+            loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService, _idp);
 
             //Get login url
             //Should be tested against whitelist url. Though microsoft does that
@@ -80,7 +81,7 @@ namespace accountservice.Controllers
                 {
                     string token = authorization[0].Substring("Bearer ".Length).Trim();
 
-                    loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+                    loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService, _idp);
 
 
                     return await loginService.HandleOAuthUserRegistration(user, token, phonecode);
@@ -108,7 +109,7 @@ namespace accountservice.Controllers
             {
                 string token = authorization[0].Substring("Bearer ".Length).Trim();
 
-                loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+                loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService, _idp);
 
                 //Verify phone if code exists or generate code
                
@@ -123,6 +124,8 @@ namespace accountservice.Controllers
                     int intCode;
                     int.TryParse(code ?? "0", out intCode);
 
+                    
+                    return intCode > 0 ? await loginService.VerifyPhoneCode(intCode, token) : new BadRequestResult();
                 }
 
             }
