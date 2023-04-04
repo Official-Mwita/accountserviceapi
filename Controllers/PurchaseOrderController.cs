@@ -90,10 +90,10 @@ namespace BookingApi.Controllers
 
                 [HttpPost]
                 [Route("createpurchaseorder")]
-                public async Task<IActionResult> insertPurchaseOrder(MPurchaseOrderUser user)
+                public async Task<IActionResult> insertPurchaseOrder(MPurchaseOrderUser? user)
                     {
 
-                        string userid = user.userid;
+                        string userid = user?.userid ?? "";
                         Hashtable response = new Hashtable();
 
                         Random rnd = new Random();
@@ -106,8 +106,8 @@ namespace BookingApi.Controllers
                         try {
                             order = await fetchOrder(userid);
                             var itemsTable = order["data"] as Hashtable;
-                            orderItems = itemsTable["orderItems"] as List<MPurchaseOrderItem>;
-                            orderInformation = itemsTable["orderInformation"] as List<MPurchaseOrder>;
+                            orderItems = itemsTable?["orderItems"] as List<MPurchaseOrderItem> ?? new List<MPurchaseOrderItem>();
+                            orderInformation = itemsTable?["orderInformation"] as List<MPurchaseOrder> ?? new List<MPurchaseOrder>();
                             
                         }
                         catch(Exception Ex) {
@@ -163,7 +163,11 @@ namespace BookingApi.Controllers
                                                         command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
                                                         command.Parameters.AddWithValue("createdBy", SqlDbType.NVarChar).Value = PurchaseItem.createdBy;
 
-                                                        using(await command.ExecuteReaderAsync());
+                                                        using(SqlDataReader reader = await command.ExecuteReaderAsync())
+                                                            {
+                                                                continue;
+
+                                                            }
 
 
                                                     }
@@ -423,7 +427,8 @@ namespace BookingApi.Controllers
                 [Route("updateorder")]
                 public async Task<IActionResult> updateOrder(CompletePurchaseOrder order)
                     {
-                        var orderInformation = order.FormData;
+                        MPurchaseOrder orderInformation = order.FormData ?? new MPurchaseOrder();
+                        List<MPurchaseOrderItem> tableData = order.TableData ?? new List<MPurchaseOrderItem>();
                         Hashtable response = new Hashtable();
 
                         using (_connection)
@@ -459,7 +464,7 @@ namespace BookingApi.Controllers
                                     }
 
                                     try {
-                                        foreach (var PurchaseItem in order.TableData)
+                                        foreach (var PurchaseItem in tableData)
                                             {
                                                 using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
                                                     {
@@ -475,7 +480,9 @@ namespace BookingApi.Controllers
                                                         command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
                                                         command.Parameters.AddWithValue("createdBy", SqlDbType.NVarChar).Value = PurchaseItem.createdBy;
 
-                                                        using(await command.ExecuteReaderAsync());
+                                                        using(SqlDataReader reader = await command.ExecuteReaderAsync()){
+                                                            continue;
+                                                        };
 
                                                     }
                                                 
