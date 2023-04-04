@@ -506,9 +506,5 @@ namespace BookingApi.Controllers
             }
 
 
-
-
-
-
     }
 
