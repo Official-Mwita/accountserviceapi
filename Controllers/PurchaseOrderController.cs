@@ -35,7 +35,7 @@ namespace BookingApi.Controllers
                 Hashtable result = new Hashtable();
                 CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
                 CosmosDbHandler<MPurchaseOrder> infoHandler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
-                string itemsQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                string itemsQueryText = $"SELECT * FROM c WHERE c.createdBy = '{userid}'";
                 string infoQueryText = $"SELECT * FROM c WHERE c.id = '{userid}'";
 
                 try {
@@ -65,7 +65,7 @@ namespace BookingApi.Controllers
                 if (ModelState.IsValid){
                     CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
                     CosmosDbHandler<MPurchaseOrder> infoHandler = CosmosDbHandler<MPurchaseOrder>.CreateCosmosHandlerInstance("purchaseorderitems", "orderinformation");
-                    string itemsQueryText = $"SELECT * FROM c WHERE c.partitionKey = '{userid}'";
+                    string itemsQueryText = $"SELECT * FROM c WHERE c.createdBy = '{userid}'";
                     string infoQueryText = $"SELECT * FROM c WHERE c.id = '{userid}'";
 
                     try {
@@ -161,7 +161,7 @@ namespace BookingApi.Controllers
                                     command.Parameters.AddWithValue("lineTotal", SqlDbType.NVarChar).Value = PurchaseItem.lineTotal;
                                     command.Parameters.AddWithValue("partitionKey", SqlDbType.NVarChar).Value = num;
                                     command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
-
+                                    command.Parameters.AddWithValue("createdBy", SqlDbType.NVarChar).Value = PurchaseItem.createdBy;
                                     using(await command.ExecuteReaderAsync());
 
 
@@ -184,7 +184,7 @@ namespace BookingApi.Controllers
                     await handler.RemoveItem(orderInformation[0].id, orderInformation[0].id);
                     CosmosDbHandler<MPurchaseOrderItem> itemHandler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
                     foreach (var item in orderItems) {
-                        await itemHandler.RemoveItem(item.id, item.partitionKey);
+                        await itemHandler.RemoveItem(item.id, item.createdBy);
                     }
                     
                } 
@@ -198,13 +198,14 @@ namespace BookingApi.Controllers
 
             }
 
+            // This controller adds order items to Azure CosmosDB
             [HttpPost]
             [Route("insertorderitems")]
             public async Task<IActionResult> InsertOrderItems ([FromBody] MPurchaseOrderItem item) {
             if (ModelState.IsValid){
                 CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
                 try {
-                    await handler.InsertItem(item, item.partitionKey);
+                    await handler.InsertItem(item, item.createdBy);
                     return new OkResult();
                 }
                 catch(Exception e) {
@@ -218,13 +219,16 @@ namespace BookingApi.Controllers
                 
             }
 
+        
+        // This controller updates already existing order items in Azure CosmosDB
+
         [HttpPut]
         [Route("updateorderitem")]
         public async Task<IActionResult> UpdateOrderItem ([FromBody] MPurchaseOrderItem item) {
             if (ModelState.IsValid){
                 CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
                 try {
-                    await handler.UpdateItem(item, item.id, item.partitionKey);
+                    await handler.UpdateItem(item, item.id, item.createdBy);
                     return new OkResult();
                 }
                 catch(Exception e) {
@@ -266,7 +270,7 @@ namespace BookingApi.Controllers
                         CosmosDbHandler<MPurchaseOrderItem> handler = CosmosDbHandler<MPurchaseOrderItem>.CreateCosmosHandlerInstance();
 
                         try {
-                            await handler.RemoveItem(item.id, item.partitionKey);
+                            await handler.RemoveItem(item.id, item.createdBy);
                             return new OkResult();
                         }
                         catch (Exception X) {
@@ -392,6 +396,7 @@ namespace BookingApi.Controllers
                                         orderitem.Add("lineTotal", reader.GetDouble(6));
                                         orderitem.Add("id", reader.GetString(7));
                                         orderitem.Add("partitionKey", reader.GetInt32(8));
+                                        orderitem.Add("createdBy", reader.GetString(9));
                                         orderitems.Add(orderitem);
                                     }
                                 }
@@ -455,14 +460,15 @@ namespace BookingApi.Controllers
                                 {
                                     command.CommandType = CommandType.StoredProcedure;
                                     command.Parameters.AddWithValue("item", SqlDbType.NVarChar).Value = PurchaseItem.item;
-                                    command.Parameters.AddWithValue("quantity", SqlDbType.NVarChar).Value = PurchaseItem.quantity;
-                                    command.Parameters.AddWithValue("unitCost", SqlDbType.NVarChar).Value = PurchaseItem.unitCost;
-                                    command.Parameters.AddWithValue("extendedCost", SqlDbType.NVarChar).Value = PurchaseItem.extendedCost;
-                                    command.Parameters.AddWithValue("taxAmount", SqlDbType.NVarChar).Value = PurchaseItem.taxAmount;
-                                    command.Parameters.AddWithValue("discountAmount", SqlDbType.NVarChar).Value = PurchaseItem.discountAmount;
-                                    command.Parameters.AddWithValue("lineTotal", SqlDbType.NVarChar).Value = PurchaseItem.lineTotal;
-                                    command.Parameters.AddWithValue("partitionKey", SqlDbType.NVarChar).Value = orderNumber;
+                                    command.Parameters.AddWithValue("quantity", SqlDbType.Int).Value = PurchaseItem.quantity;
+                                    command.Parameters.AddWithValue("unitCost", SqlDbType.Float).Value = PurchaseItem.unitCost;
+                                    command.Parameters.AddWithValue("extendedCost", SqlDbType.Float).Value = PurchaseItem.extendedCost;
+                                    command.Parameters.AddWithValue("taxAmount", SqlDbType.Float).Value = PurchaseItem.taxAmount;
+                                    command.Parameters.AddWithValue("discountAmount", SqlDbType.Float).Value = PurchaseItem.discountAmount;
+                                    command.Parameters.AddWithValue("lineTotal", SqlDbType.Float).Value = PurchaseItem.lineTotal;
+                                    command.Parameters.AddWithValue("partitionKey", SqlDbType.Int).Value = orderNumber;
                                     command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
+                                    command.Parameters.AddWithValue("createdBy", SqlDbType.NVarChar).Value = PurchaseItem.createdBy;
 
                                     using(await command.ExecuteReaderAsync());
 
