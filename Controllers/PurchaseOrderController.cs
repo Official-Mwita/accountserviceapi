@@ -358,27 +358,30 @@ namespace BookingApi.Controllers
 
                     try {
                         using(_connection) {
+
                             _connection.OpenAsync().Wait();
-                            using (SqlCommand command = new SqlCommand("spGetPurchaseOrderInfo", _connection)) {
-                                command.CommandType = CommandType.StoredProcedure;
-                                command.Parameters.AddWithValue("orderNumber", SqlDbType.Int).Value = orderNumber;
-                                using (SqlDataReader reader = await command.ExecuteReaderAsync()){
-                                    while (reader.Read()) {
-                                        Hashtable formInfo = new Hashtable();
-                                        formInfo.Add("costCenter", reader.GetString(0));
-                                        formInfo.Add("supplier", reader.GetString(1));
-                                        formInfo.Add("shipsTo", reader.GetString(2));
-                                        formInfo.Add("orderDate", reader.GetDateTime(3).Date.ToString());
-                                        formInfo.Add("orderAmount", reader.GetInt32(4));
-                                        formInfo.Add("deliveryPeriod", reader.GetInt32(5));
-                                        formInfo.Add("orderNumber", reader.GetInt32(6));
-                                        formInfo.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
-                                        formInfo.Add("vehicleDetails", reader.GetString(8));
-                                        formInfo.Add("narration", reader.GetString(9));
-                                        order.Add("formInfo", formInfo);
+
+                            using (SqlCommand command = new SqlCommand("spGetPurchaseOrderInfo", _connection))
+                                {
+                                    command.CommandType = CommandType.StoredProcedure;
+                                    command.Parameters.AddWithValue("orderNumber", SqlDbType.Int).Value = orderNumber;
+                                    using (SqlDataReader reader = await command.ExecuteReaderAsync()){
+                                        while (reader.Read()) {
+                                            Hashtable formInfo = new Hashtable();
+                                            formInfo.Add("costCenter", reader.GetString(0));
+                                            formInfo.Add("supplier", reader.GetString(1));
+                                            formInfo.Add("shipsTo", reader.GetString(2));
+                                            formInfo.Add("orderDate", reader.GetDateTime(3).Date.ToString());
+                                            formInfo.Add("orderAmount", reader.GetInt32(4));
+                                            formInfo.Add("deliveryPeriod", reader.GetInt32(5));
+                                            formInfo.Add("orderNumber", reader.GetInt32(6));
+                                            formInfo.Add("firstDeliveryDate", reader.GetDateTime(7).Date.ToString());
+                                            formInfo.Add("vehicleDetails", reader.GetString(8));
+                                            formInfo.Add("narration", reader.GetString(9));
+                                            order.Add("formInfo", formInfo);
+                                        }
                                     }
                                 }
-                            }
 
                             using (SqlCommand command = new SqlCommand("spGetPurchaseOrderItems", _connection)){
                                 List<Hashtable> orderitems = new List<Hashtable>();
@@ -416,76 +419,75 @@ namespace BookingApi.Controllers
             public async Task<IActionResult> updateOrder(CompletePurchaseOrder order)
                 {
                     var orderInformation = order.FormData;
-
-                    var orderNumber = Convert.ToString(orderInformation.OrderNumber);
-
                     Hashtable response = new Hashtable();
 
-                using (_connection)
-                {
-                   _connection.OpenAsync().Wait();
-                   
-                   using (SqlCommand command = new SqlCommand("spInsertPurchaseOrder", _connection))
-                   {
-                       command.CommandType = CommandType.StoredProcedure;
-                       command.Parameters.AddWithValue("CostCenter", SqlDbType.NVarChar).Value = orderInformation.CostCenter;
-                       command.Parameters.AddWithValue("Supplier", SqlDbType.NVarChar).Value = orderInformation.Supplier;
-                       command.Parameters.AddWithValue("ShipsTo", SqlDbType.NVarChar).Value = orderInformation.ShipsTo;
-                       command.Parameters.AddWithValue("OrderAmount", SqlDbType.NVarChar).Value = orderInformation.OrderAmount;
-                       command.Parameters.AddWithValue("FirstDeliveryDate", SqlDbType.NVarChar).Value = orderInformation.FirstDeliveryDate;
-                       command.Parameters.AddWithValue("Narration", SqlDbType.NVarChar).Value = orderInformation.Narration;
-                       command.Parameters.AddWithValue("OrderDate", SqlDbType.NVarChar).Value = orderInformation.OrderDate;
-                       command.Parameters.AddWithValue("DeliveryPeriod", SqlDbType.NVarChar).Value = orderInformation.DeliveryPeriod;
-                       command.Parameters.AddWithValue("VehicleDetails", SqlDbType.NVarChar).Value = orderInformation.VehicleDetails;
-                       command.Parameters.AddWithValue("OrderNumber", SqlDbType.NVarChar).Value = orderInformation.OrderNumber;                      
-
-                       
-                       using(SqlDataReader reader = await command.ExecuteReaderAsync())
-                       {
-                            if (reader.HasRows)
+                    using (_connection)
+                    {
+                        _connection.OpenAsync().Wait();
+                        
+                        using (SqlCommand command = new SqlCommand("spInsertPurchaseOrder", _connection))
                             {
-                                reader.Read();
-                                response.Add("formStatus", reader.GetInt32(0));
-                                                               
+                                command.CommandType = CommandType.StoredProcedure;
+                                command.Parameters.AddWithValue("CostCenter", SqlDbType.NVarChar).Value = orderInformation.CostCenter;
+                                command.Parameters.AddWithValue("Supplier", SqlDbType.NVarChar).Value = orderInformation.Supplier;
+                                command.Parameters.AddWithValue("ShipsTo", SqlDbType.NVarChar).Value = orderInformation.ShipsTo;
+                                command.Parameters.AddWithValue("OrderAmount", SqlDbType.NVarChar).Value = orderInformation.OrderAmount;
+                                command.Parameters.AddWithValue("FirstDeliveryDate", SqlDbType.NVarChar).Value = orderInformation.FirstDeliveryDate;
+                                command.Parameters.AddWithValue("Narration", SqlDbType.NVarChar).Value = orderInformation.Narration;
+                                command.Parameters.AddWithValue("OrderDate", SqlDbType.NVarChar).Value = orderInformation.OrderDate;
+                                command.Parameters.AddWithValue("DeliveryPeriod", SqlDbType.NVarChar).Value = orderInformation.DeliveryPeriod;
+                                command.Parameters.AddWithValue("VehicleDetails", SqlDbType.NVarChar).Value = orderInformation.VehicleDetails;
+                                command.Parameters.AddWithValue("OrderNumber", SqlDbType.NVarChar).Value = orderInformation.OrderNumber;                      
+
+                            
+                                using(SqlDataReader reader = await command.ExecuteReaderAsync())
+                                    {
+                                            if (reader.HasRows)
+                                            {
+                                                reader.Read();
+                                                response.Add("formStatus", reader.GetInt32(0));
+                                                                            
+                                            }
+
+                                    }
+
                             }
 
-                       }
+                            try {
+                                foreach (var PurchaseItem in order.TableData)
+                                    {
+                                        using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
+                                            {
+                                                command.CommandType = CommandType.StoredProcedure;
+                                                command.Parameters.AddWithValue("item", SqlDbType.NVarChar).Value = PurchaseItem.item;
+                                                command.Parameters.AddWithValue("quantity", SqlDbType.Int).Value = PurchaseItem.quantity;
+                                                command.Parameters.AddWithValue("unitCost", SqlDbType.Float).Value = PurchaseItem.unitCost;
+                                                command.Parameters.AddWithValue("extendedCost", SqlDbType.Float).Value = PurchaseItem.extendedCost;
+                                                command.Parameters.AddWithValue("taxAmount", SqlDbType.Float).Value = PurchaseItem.taxAmount;
+                                                command.Parameters.AddWithValue("discountAmount", SqlDbType.Float).Value = PurchaseItem.discountAmount;
+                                                command.Parameters.AddWithValue("lineTotal", SqlDbType.Float).Value = PurchaseItem.lineTotal;
+                                                command.Parameters.AddWithValue("partitionKey", SqlDbType.Int).Value = orderInformation.OrderNumber;
+                                                command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
+                                                command.Parameters.AddWithValue("createdBy", SqlDbType.NVarChar).Value = PurchaseItem.createdBy;
 
-                   }
+                                                using(await command.ExecuteReaderAsync());
 
-                    try {
-                        foreach (var PurchaseItem in order.TableData)
-                        {
-                            using (SqlCommand command = new SqlCommand("spInsertPurchaseOrderItem", _connection))
-                                {
-                                    command.CommandType = CommandType.StoredProcedure;
-                                    command.Parameters.AddWithValue("item", SqlDbType.NVarChar).Value = PurchaseItem.item;
-                                    command.Parameters.AddWithValue("quantity", SqlDbType.Int).Value = PurchaseItem.quantity;
-                                    command.Parameters.AddWithValue("unitCost", SqlDbType.Float).Value = PurchaseItem.unitCost;
-                                    command.Parameters.AddWithValue("extendedCost", SqlDbType.Float).Value = PurchaseItem.extendedCost;
-                                    command.Parameters.AddWithValue("taxAmount", SqlDbType.Float).Value = PurchaseItem.taxAmount;
-                                    command.Parameters.AddWithValue("discountAmount", SqlDbType.Float).Value = PurchaseItem.discountAmount;
-                                    command.Parameters.AddWithValue("lineTotal", SqlDbType.Float).Value = PurchaseItem.lineTotal;
-                                    command.Parameters.AddWithValue("partitionKey", SqlDbType.Int).Value = orderNumber;
-                                    command.Parameters.AddWithValue("id", SqlDbType.NVarChar).Value = PurchaseItem.id;
-                                    command.Parameters.AddWithValue("createdBy", SqlDbType.NVarChar).Value = PurchaseItem.createdBy;
+                                            }
+                                        
+                                    }
+                                response.Add("tableStatus", 1);
 
-                                    using(await command.ExecuteReaderAsync());
+                            }
+                            catch (Exception Ex){
 
-                                }
-                            
-                        }
-                        response.Add("tableStatus", 1);
+                                Console.WriteLine(Ex.Message);
+                                response.Add("tableStatus", Ex.Message);
 
-                    }
-                    catch (Exception Ex){
-                        Console.WriteLine(Ex.Message);
-                        response.Add("tableStatus", Ex.Message);
+                            }
 
-                    }
-                    return new OkObjectResult(response);
+                        return new OkObjectResult(response);
 
-               }
+                }
                 }
 
 
