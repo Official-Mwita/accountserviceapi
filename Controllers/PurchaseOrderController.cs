@@ -4,7 +4,7 @@ using System.Collections;
 using System.Data.SqlClient;
 using System.Data;
 using accountservice.Commons;
-
+using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -423,6 +423,7 @@ namespace BookingApi.Controllers
                         }
                     }
 
+
                 [HttpPut]
                 [Route("updateorder")]
                 public async Task<IActionResult> updateOrder(CompletePurchaseOrder order)
@@ -502,6 +503,42 @@ namespace BookingApi.Controllers
                             }
                     }
 
+                
+                [HttpDelete]
+                [Route("deleteorderitem")]
+                public async Task<IActionResult> deleteOrderItem([FromBody] JsonElement itemInfo)
+                    {
+                        Hashtable response = new Hashtable();
+                        string itemid = itemInfo.GetProperty("itemid").ToString();
+                        int orderNo = itemInfo.GetProperty("orderNo").GetInt32();
+                        try {
+                            using(_connection)
+                                {
+
+                                    _connection.OpenAsync().Wait();
+
+                                    using(SqlCommand command = new SqlCommand("spDeleteOrderItem", _connection))
+                                        {
+                                            command.CommandType = CommandType.StoredProcedure;
+                                            command.Parameters.AddWithValue("itemid", SqlDbType.NVarChar).Value = itemid;
+                                            command.Parameters.AddWithValue("orderNo", SqlDbType.Int).Value = orderNo;
+
+                                            using(SqlDataReader reader = await command.ExecuteReaderAsync())
+                                                {
+                                                    reader.Read();
+                                                    response.Add("status", reader.GetInt32(0));
+
+                                                }
+                                        }
+                                }
+                            return new OkObjectResult(response);
+                            }
+                        catch(Exception Ex) {
+                            Console.WriteLine(Ex.Message);
+                            return new BadRequestObjectResult(Ex.Message);
+                        }
+                        
+                    }
 
             }
 
