@@ -25,34 +25,6 @@ namespace accountservice.Controllers
         }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] UserModel user)
-        //{
-
-        //    Hashtable values = new Hashtable();
-
-        //    if (ModelState.IsValid) //Try to login user otherwise return error
-        //    {
-        //        loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
-
-        //        return await loginService.StandardLogin(user);
-
-        //    }
-        //    else
-        //    {
-        //        values.Add("Message", "Error trying to process your request");
-        //        values.Add("Success", false);
-
-        //        return new BadRequestObjectResult(values)
-        //        {
-        //            StatusCode = 408
-        //        };
-        //    }
-
-        // } 
-
-
-
         [HttpGet]
         [Route("Loginwithmicrosoft")]
         public async Task<IActionResult> LoginwithMicrosoft(string? code)
@@ -137,18 +109,9 @@ namespace accountservice.Controllers
     }
 
 
-    public class UserModel
-    {
-        public string Password { get; set; } = string.Empty;
-
-        public string? UserName { get; set; }
-
-        [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }
-
-    }
 
 }
 
-   
+
+
 
