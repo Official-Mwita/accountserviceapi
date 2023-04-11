@@ -59,7 +59,7 @@ namespace accountservice.Implementations
                     { "code", code },
                     { "scope", "openid User.Read" },
                     { "client_id", _config["AzureAd:ClientId"]?? "no client id" },
-                    { "redirect_uri", "https://ibusiness-git-main-moryno.vercel.app/sign-in" },
+                    { "redirect_uri", "http://localhost:3000/sign-in" },
                     { "grant_type", "authorization_code" },
                     { "client_secret", _config["AzureAd:ClientSecret"]??"nosecret key" }
                 };
