@@ -108,6 +108,15 @@ namespace BookingApi.Controllers
                             var itemsTable = order["data"] as Hashtable;
                             orderItems = itemsTable?["orderItems"] as List<MPurchaseOrderItem> ?? new List<MPurchaseOrderItem>();
                             orderInformation = itemsTable?["orderInformation"] as List<MPurchaseOrder> ?? new List<MPurchaseOrder>();
+                            foreach (var property in orderInformation[0].GetType().GetProperties())
+                            {
+                                var value = property.GetValue(orderInformation[0], null);
+                                if (value != null && value is string && (string)value == "")
+                                {
+                                    response.Add("error", "You have some missing values");
+                                    return new BadRequestObjectResult(response);
+                                }
+                            }
                             
                         }
                         catch(Exception Ex) {
