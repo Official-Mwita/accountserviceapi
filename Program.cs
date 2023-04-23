@@ -64,6 +64,7 @@ namespace accountservice
                         "https://ibusiness-git-main-moryno.vercel.app/", //Dashboard frontend link
                         "http://localhost:3000",
                         "http://localhost:3000/",
+                        "http://localhost:3001/",
                         "http://192.168.1.200:3000/",
                     };
 
