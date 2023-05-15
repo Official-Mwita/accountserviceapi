@@ -1,0 +1,5 @@
+bin/
+obj/
+.*
+git add .github
+git add .gitignore

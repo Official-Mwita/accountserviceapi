@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using accountservice.ServiceFactory;
 using accountservice.Interfaces;
-using Microsoft.AspNetCore.Authentication;
 using accountservice.ForcedModels;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.DataProtection;
+using accountservice.Commons;
 
 namespace accountservice.Controllers
 {
@@ -14,56 +15,31 @@ namespace accountservice.Controllers
     {
 
         private readonly IConfiguration _config;
-        private ILogin loginService;
-        public LoginController(IConfiguration config)
+        private readonly IDataProtectionProvider _idp;
+        private ILogin? loginService;
+        public LoginController(IConfiguration config, IDataProtectionProvider idp)
         {
             _config = config;
+            _idp = idp;
 
         }
 
-        [HttpGet("/free")]
-        public string Free(string name)
-        {
-            return "I gave this for your test Mr. " + name;
-        }
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] UserModel user)
-        //{
-            
-        //    Hashtable values = new Hashtable();
-            
-        //    if (ModelState.IsValid) //Try to login user otherwise return error
-        //    {
-        //        loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
-                
-        //        return await loginService.StandardLogin(user);
-
-        //    }
-        //    else
-        //    {
-        //        values.Add("Message", "Error trying to process your request");
-        //        values.Add("Success", false);
-
-        //        return new BadRequestObjectResult(values)
-        //        {
-        //            StatusCode = 408
-        //        };
-        //    }
-
-       // } 
-
-
-        
 
         [HttpGet]
         [Route("Loginwithmicrosoft")]
         public async Task<IActionResult> LoginwithMicrosoft(string? code)
         {
-            loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+            loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService, _idp);
 
-            return await loginService.LoginwithMicrosoft(code);
+            //Get login url
+            //Should be tested against whitelist url. Though microsoft does that
+            string loginurl = HttpContext.Request.GetEncodedUrl();
+
+            int queryIndex = loginurl.IndexOf('?') < 0 ? loginurl.Length : loginurl.IndexOf('?');
+
+            loginurl = loginurl.Substring(0, queryIndex);
+
+            return await loginService.LoginwithMicrosoft(code, loginurl);
 
         }
 
@@ -77,7 +53,7 @@ namespace accountservice.Controllers
                 {
                     string token = authorization[0].Substring("Bearer ".Length).Trim();
 
-                    loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+                    loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService, _idp);
 
 
                     return await loginService.HandleOAuthUserRegistration(user, token, phonecode);
@@ -97,22 +73,34 @@ namespace accountservice.Controllers
         }
 
         [HttpGet("verify_phone")]
-        public async Task<IActionResult> VerifyUserPhone([FromQuery]string userphone)
+        public async Task<IActionResult> VerifyUserPhone([FromQuery]string userphone, [FromQuery]string? code)
         {
+           
             var authorization = HttpContext.Request.Headers.Authorization;
             if (authorization.Count > 0)
             {
                 string token = authorization[0].Substring("Bearer ".Length).Trim();
 
-                loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService);
+                loginService = ServicesFactory.GetLoginService(HttpContext, _config, loginService, _idp);
 
+                //Verify phone if code exists or generate code
+               
+                code = code ?? string.Empty;
+                if (string.IsNullOrEmpty(code))
+                {
+                    
+                    return await loginService.GeneratePhoneCode(userphone, token);
+                }
+                else //Verify phone code
+                {
+                    int intCode;
+                    int.TryParse(code ?? "0", out intCode);
 
-                return await loginService.GeneratePhoneCode(userphone, token);
+                    
+                    return intCode > 0 ? await loginService.VerifyPhoneCode(intCode, token) : new BadRequestResult();
+                }
 
             }
-
-
-
 
             //User not authorized
             return Unauthorized();
@@ -121,18 +109,9 @@ namespace accountservice.Controllers
     }
 
 
-    public class UserModel
-    {
-        public string Password { get; set; } = string.Empty;
-
-        public string? UserName { get; set; }
-
-        [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }
-
-    }
 
 }
 
-   
+
+
 

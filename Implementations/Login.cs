@@ -2,6 +2,8 @@
 using accountservice.Controllers;
 using accountservice.ForcedModels;
 using accountservice.Interfaces;
+using accountservice.Models;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -23,22 +25,27 @@ namespace accountservice.Implementations
 
         private readonly IConfiguration _config;
         private readonly HttpContext _httpContext;
+        private readonly IDataProtectionProvider _idp; //For data protection such as encrypting and decryptin jwt token
 
-        public Login(IConfiguration config, HttpContext httpContext)
+        public Login(IConfiguration config, HttpContext httpContext, IDataProtectionProvider idp)
         {
             _config = config;
             _httpContext = httpContext;
+            _idp = idp;
+
         }
 
 
-        public async Task<IActionResult> LoginwithMicrosoft(string? code)
+        public async Task<IActionResult> LoginwithMicrosoft(string? code, string loginurl)
         {
 
             if (code == null)
             {
                 //Generate other values such as status and status code
+                string microsoft_login_url = _config.GetSection("Microsofturl").Get<string>();// "baseurl"
+                //microsoft_login_url = "http://localhost:3000/sign-in"; //microsoft_login_url.Replace("baseurl", loginurl);
 
-                return new RedirectResult(_config.GetSection("Microsofturllocal").Get<string>());
+                return new RedirectResult(microsoft_login_url);
             }
             else
             {
@@ -169,13 +176,17 @@ namespace accountservice.Implementations
                                         string registrationToken = FullRegistrationToken(userGraphInfo?.UserPrincipalName ?? "", userGraphInfo?.Id ?? "");
                                         //update graph info as saved in the database
 
+                                        userGraphInfo.DisplayName = loggedINUser.FullName;
+                                        userGraphInfo.GivenName = loggedINUser.UserName;
+                                        userGraphInfo.MobilePhone = loggedINUser.Telephone;
+
                                         IDictionary<string, object> returnvalues = new Dictionary<string, object>
                                         {
                                             {"token", registrationToken },
-                                            {"userinfo", loggedINUser},
+                                            {"graphinfo", userGraphInfo},
                                             {"oauthprovider", "Microsoft" },
-                                            {"redirect_to", "/dashboard" },
-                                            {"registered", true }
+                                            {"post_to", "/login/loginwithmicrosoft" },
+                                            {"registered", false }
                                             
 
                                         };
@@ -194,8 +205,8 @@ namespace accountservice.Implementations
                                         {"token", registrationToken },
                                         {"graphinfo", userGraphInfo??new() },
                                         {"oauthprovider", "Microsoft" },
-                                        {"redirect_to", "/login/loginwithmicrosoft/" },
-                                        {"registered", true }
+                                        {"post_to", "/login/loginwithmicrosoft/" },
+                                        {"registered", false }
 
                                     };
 
@@ -228,7 +239,7 @@ namespace accountservice.Implementations
                 else
                 {
                     string con = await res.Content.ReadAsStringAsync();
-                    return new BadRequestObjectResult("Problem occurred while processing your request. Try again");
+                    return new BadRequestObjectResult(con);
                 }
             }
 
@@ -259,7 +270,7 @@ namespace accountservice.Implementations
 
             //Verify the token before proceding with user registration. 
             //Because we use token claims to register the user
-            if (CommonMethods.VerifyJwtToken(auth_token, tokencredential.Key, out tokenClaims, tokencredential.Issuer, tokencredential.Audience))
+            if (CommonMethods.VerifyEncyptedJwtToken(auth_token, tokencredential.Key, out tokenClaims, tokencredential.Issuer, tokencredential.Audience, _config))
             {
                 //Get user emal/principal name and user Oauth id from id. Use the information to add user to database
                 string? userprincipalname = CommonMethods.getClaimValue("principalName", tokenClaims);
@@ -274,7 +285,7 @@ namespace accountservice.Implementations
                     {
 
                         //Update Oauth user information
-                        bool oaut_info_osuccess = await updateOauthUserDbInformation(true, VerifyPhoneCode(phonecode ?? 0, tokenClaims), "microsoft", immutableID);
+                        bool oaut_info_osuccess = await updateOauthUserDbInformation(true, VerifyPhoneCode(phonecode ?? 0, tokenClaims).Result, "microsoft", immutableID);
                         if(oaut_info_osuccess)
                             return new OkObjectResult(genetrateToken(registerUser));
                     }
@@ -300,6 +311,7 @@ namespace accountservice.Implementations
         {
             bool fullyRegistered = false;
 
+
             //Get OAuth registration details
             try
             {
@@ -314,7 +326,7 @@ namespace accountservice.Implementations
                     {
                         await reader.ReadAsync();
 
-                        fullyRegistered = reader.GetInt16(0) == 1; //User extra data were successfuly obtained and database updated
+                        fullyRegistered = ((int)reader.GetByte(0)) == 1; //User extra data were successfuly obtained and database updated
                     }
                 }
 
@@ -362,6 +374,20 @@ namespace accountservice.Implementations
             return token;
         }
 
+        /// <summary>
+        /// Generates a JWT when provided a list of claims
+        /// Returns a string token
+        /// </summary>
+        /// <param name="claims">A list of claims</param>
+        /// <returns>string token</returns>
+        private string generateClaimsTokenEncrypted(List<Claim> claims, double validity)
+        {
+            string plainToken = generateClaimsToken(claims, validity);
+            
+
+            return new AesEncryption(_config).Encrypt(plainToken);
+        }
+
         //A private function used to generate user JWT token per logged in user used across
         //All our API
         /// <summary>
@@ -402,8 +428,8 @@ namespace accountservice.Implementations
                 claims.Add(new Claim(MUser.ADMIN_TYPE, loggedINUser.UserName.ToLower()));
             }
 
-            userinfo.Add("status", true);
-            userinfo.Add("token", generateClaimsToken(claims, 10)); //10 hrs for a logged in token
+            userinfo.Add("registered", true);
+            userinfo.Add("token", generateClaimsTokenEncrypted(claims, 10)); //10 hrs for a logged in token
             userinfo.Add("user", loggedINUser);
 
             return userinfo;
@@ -411,7 +437,7 @@ namespace accountservice.Implementations
 
 
         /// <summary>
-        /// Used to generate a token that is used to collect specific user for complete registration
+        /// Used to generate a token that is used to collect user specific iformation for a complete registration
         /// embedes principal name provided by Oauth provideer and immutable id that can be used later 
         /// to verify a user before adding their details to the database
         /// </summary>
@@ -437,21 +463,39 @@ namespace accountservice.Implementations
                                     };
 
 
-            return generateClaimsToken(claims, 0.6);
+            return generateClaimsTokenEncrypted(claims, 0.16667); //0.1667 for approximately ten minutes to complete the whole process. Unless start zero
  
         }
 
-        private bool VerifyPhoneCode(int code, List<Claim> claims)
+        private async Task<bool> VerifyPhoneCode(int code, List<Claim> claims)
         {
             
 
             string phoneNumber = CommonMethods.getClaimValue("phoneNumber", claims)??"";
-            int savedPhonecode;
 
-            int.TryParse(CommonMethods.getClaimValue("phoneCode", claims)??"0", out savedPhonecode); //Should on be stored and retrieved from a secret vault
-            //Provided code and claim phone must match stored and code
+            //Get phone code from cosmos db
+            //Get phonecode from the database
+            CosmosDbHandler<MUserPhoneVerification> handler = CosmosDbHandler<MUserPhoneVerification>.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
 
-            return savedPhonecode == code;
+            try
+            {
+                string query = $"SELECT * FROM c WHERE c.phoneNumber = '{phoneNumber}' and c.VerificationCode = {code}";
+
+                List<MUserPhoneVerification> verification = await handler.QuerySelector(query);
+
+                //If success update db then return
+                if(verification.Count == 1 && verification[0].ExpiryEpoch > DateTime.Now.Ticks)
+                {
+
+                }
+
+                return true;
+                
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 
@@ -469,26 +513,54 @@ namespace accountservice.Implementations
             Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
 
             List<Claim> claims;
-            if (CommonMethods.VerifyJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience))
+            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _config))
             {
                 Random rnd = new Random();
                 int code = rnd.Next(100000, 999999);
-                claims.Add(new Claim("phoneCode", "" + code));//Should preferer saving the code in a database
                 claims.Add(new Claim("phoneNumber", phoneNumber));
 
+                //Get time that was to generate this token it will be same for the newly generated token
+                int seconds;
+                int.TryParse(CommonMethods.getClaimValue("exp", claims) ?? "0", out seconds);
+                double hoursPan = (DateTime.UnixEpoch.AddSeconds(seconds) - DateTime.UtcNow).Hours;
+                hoursPan = hoursPan < 0 ? 0.1667 : hoursPan; //Incase time expires but we are here, add 10 minutes
+
                 //Send the code using preffered SMS API provider
-
-
+                //As well as save it in to the cosmos db
                 //Return information 
                 Dictionary<string, string> res = new Dictionary<string, string>
                 {
-                    { "token", generateClaimsToken(claims, 0.6) }, //Ten minutes for code verification
+                    { "token", generateClaimsTokenEncrypted(claims, hoursPan)}, //Pass remaining hours of the original token
                     { "phoneNumber", phoneNumber }
-                };
+                };   
+                try
+                {
+                    //Send the code to user before saving it to the database
+                    //happens asychronously. Response is immaterial
+                    await CommonMethods.sendOtpMessage(phoneNumber, code).ConfigureAwait(false);
 
-                return new OkObjectResult(res);
+                    //Save it to the database
+                    CosmosDbHandler<MUserPhoneVerification> dbHandler = CosmosDbHandler<MUserPhoneVerification>.CreateCosmosHandlerInstance("purchaseorderitems", "phoneverification");
+                   
+                    MUserPhoneVerification item = new MUserPhoneVerification
+                    { phoneNumber = phoneNumber, ExpiryEpoch = DateTime.Now.AddMinutes(10).Ticks, VerificationCode = code };
+
+                    bool result = await dbHandler.InsertItem(item, item.phoneNumber);
+
+                    if(result)
+                        return new OkObjectResult(res);
+                }
+                catch(Exception ex)
+                {
+                    res.Clear();
+                    res.Add("status", "" + false);
+                    res.Add("message", ex.Message);
+
+                    return new BadRequestObjectResult(res);
+                }
+
             }
-            else //Unauthorized user
+            //Unauthorized user and other malformed requests not handled above
             {
                 return new UnauthorizedResult();
             }
@@ -587,140 +659,33 @@ namespace accountservice.Implementations
             return false;
         }
 
-      
+        public async Task<IActionResult> VerifyPhoneCode(int code, string token)
+        {
 
+            //Verify authenticity of the token, then retrive token in it
+            //First we verify token provided
+            Jwt tokencredential = CommonMethods.GetJWTinfo(_config);
 
+            List<Claim> claims;
+            if (CommonMethods.VerifyEncyptedJwtToken(token, tokencredential.Key, out claims, tokencredential.Issuer, tokencredential.Audience, _config))
+            {
+                bool isPhoneVefiried = await VerifyPhoneCode(code, claims);
 
+                if (isPhoneVefiried)
+                {
+                    IDictionary<string, string> response = new Dictionary<string, string>
+                    {
+                        {"status", ""+true },
+                        {"message", "Phone verified successfully" }
+                    };
 
+                    return new OkObjectResult(response);
+                }
 
-
-
-
-
-
-
-
-
-        ////Standard login code and dependencies
-        //public async Task<IActionResult> StandardLogin([FromBody] UserModel user)
-        //{
-        //    Hashtable values = new Hashtable();
-
-        //    //try to login user if they exist
-        //    try
-        //    {
-        //        MUser loggedINUser = await selectUserfromDb(user.Email, user.UserName, true);
-
-        //        if (loggedINUser != null)
-        //        {
-        //            //check user password
-        //            if (MUser.passwordHash(user.Password) == loggedINUser.Password)
-        //            {
-        //                values.Clear(); //Reset hash table values just incase
-
-        //                //clear password after use
-        //                loggedINUser.Password = string.Empty;
-
-        //                values = genetrateToken(loggedINUser);
-
-
-        //                return new OkObjectResult(values);
-
-        //            }
-
-        //        }
-        //        //If we are here. There was password error, or the user doesn't exist
-
-        //        //Tell user that their creadential are either wrong or do not exist
-        //        values.Add("Message", "User does not exist or password/username incorrect");
-        //        values.Add("status", false);
-
-        //        return new UnauthorizedObjectResult(values);
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        values.Add("Message", e.Message);//"Error trying to process your request"
-        //        values.Add("Success", false);
-
-        //        return new BadRequestObjectResult(values)
-        //        {
-        //            StatusCode = 408
-        //        };
-
-        //    }
-        //}
-
-
-        //public async Task<MUser> getUserInfo(string? email, string? username)
-        //{
-        //    return await selectUserfromDb(email, username);
-
-        //}
-
-        ////Generate a user from the database either their username or email
-        //private async Task<MUser> selectUserfromDb(string? email, string? username, bool is4login = false)
-        //{
-        //    MUser? user = null;
-
-        //    //Connect to database.
-        //    //Return 1 if email exists, 0 if user does not and -1 if an error occured
-        //    using (SqlConnection _connection = new SqlConnection(_config.GetConnectionString("connString")))
-        //    {
-        //        //Connect to database then read booking records
-        //        _connection.OpenAsync().Wait();
-
-        //        using (SqlCommand command = new SqlCommand("spSelectUser", _connection))
-        //        {
-        //            command.CommandType = CommandType.StoredProcedure;
-        //            command.Parameters.AddWithValue("userName", SqlDbType.NVarChar).Value = username ?? "empty"; //We use email instead
-
-        //            //Get email from the user claims
-        //            command.Parameters.AddWithValue("email", SqlDbType.NVarChar).Value = email ?? "empty";
-
-        //            SqlDataReader reader = await command.ExecuteReaderAsync();
-
-        //            if (reader.HasRows)
-        //            {
-        //                reader.Read();
-        //                //Create a user principal. I.e login user
-        //                //Check if password match then return ok
-        //                //Create a user model
-        //                user = new MUser()
-        //                {
-        //                    UserID = reader.GetInt64(0),
-        //                    Email = reader.GetString(2),
-        //                    UserName = reader.GetString(1),
-        //                    FullName = reader.GetString(3),
-        //                    Telephone = reader.GetString(5),
-        //                    PhysicalAddress = reader.GetString(4),
-        //                    OriginCountry = reader.GetString(6),
-        //                    EmployerName = " " + reader.GetString(7),
-        //                    Experience = reader.GetInt32(8),
-        //                    Position = reader.GetString(9),
-        //                    DisabilityStatus = reader.GetString(10),
-        //                    HashPassword = reader.GetString(11)
-
-
-        //                };
-
-        //                if (!is4login)
-        //                {
-        //                    user.HashPassword = string.Empty;
-        //                }
-
-
-        //                await reader.CloseAsync();
-
-        //            }
-
-        //        }
-        //    }
-
-        //    //Return created user or null
-        //    return user;
-
-        //}
+            }
+            //Handles unauthorized request and any other bad requests
+            return new UnauthorizedObjectResult("Error occured processing your request");
+        }
 
     }
 }

@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BookingApi.Interfaces;
 
 namespace BookingApi.Models
 {
-    public class MPurchaseOrderUser
+    public class MPurchaseOrderUser: iPurchaseOrderUser
     {
         public string userid {get; set;} = string.Empty;
     }
